@@ -1,0 +1,14 @@
+volumes:
+  db:
+    driver: local
+
+services:
+  varvsql1:
+    image: postgres:latest
+    container_name: database
+    ports:
+      - 15432:5432
+    environment:
+      - "POSTGRES_USER=PROD"
+      - "POSTGRES_DB=FICHACONTROLE"
+      - "POSTGRES_PASSWORD=S3cr3T"

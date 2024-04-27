@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /horus
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: eddz
+  jpa:
+    open-in-view: false
+    show-sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:15432/FICHACONTROLE
+    username: PROD
+    password: S3cr3T
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yaml
