@@ -52,7 +52,7 @@ CREATE TABLE Cad_Report_Report_Filter (
 CREATE TABLE Cad_Relatorios_Permissoes (
     Relatorio   BIGINT NOT NULL,
     Usuario     BIGINT NOT NULL
-)
+);
 
 -- CADASTRO DE GRUPOS
 INSERT INTO Report_Group (GRUPO, NOME) VALUES (1, '(Ext) Fluxo de Processo');
