@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
-    List<Permission> findByUserId(Long userId);
+    List<Permission> findByUserId(final Long userId);
+
+    void deleteByUserId(final Long userID);
 }

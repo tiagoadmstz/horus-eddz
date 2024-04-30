@@ -1,10 +1,14 @@
 package io.github.tiagoadmstz.eddz.domains;
 
+import io.github.tiagoadmstz.eddz.dtos.UserDto;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -12,8 +16,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -49,6 +57,8 @@ public class User {
     private String plant;
     @Column(name = "EMAIL", length = 255)
     private String email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<Permission> permissions;
     @Transient
     private List<String> authorities;
     @Transient
@@ -59,4 +69,26 @@ public class User {
     private boolean credentialsNonExpired = true;
     @Transient
     private boolean enabled = true;
+
+    public User(UserDto userDto, boolean encriptPassword) {
+        id = userDto.getId();
+        username = userDto.getUsername();
+        if (!StringUtils.isEmpty(userDto.getPassword())) {
+            if (encriptPassword) {
+                password = new BCryptPasswordEncoder().encode(userDto.getPassword());
+            } else {
+                password = userDto.getPassword();
+            }
+        }
+        name = userDto.getName();
+        sector = userDto.getSector();
+        lastname = userDto.getLastname();
+        plant = userDto.getPlant();
+        email = userDto.getEmail();
+        if (Objects.nonNull(userDto.getPermissions())) {
+            permissions = userDto.getPermissions().stream()
+                    .map(Permission::new)
+                    .collect(Collectors.toList());
+        }
+    }
 }

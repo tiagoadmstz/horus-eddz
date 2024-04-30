@@ -2,6 +2,7 @@ package io.github.tiagoadmstz.eddz.repositories;
 
 import io.github.tiagoadmstz.eddz.domains.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -9,6 +10,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(final String username);
+
+    @Query("select s.password from User as s where s.id = ?1")
+    String findPasswordById(final Long id);
 
 }
