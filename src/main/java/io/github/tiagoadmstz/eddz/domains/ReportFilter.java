@@ -5,28 +5,19 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Report_Filter")
-@NamedQueries(value = {
-        @NamedQuery(name = "report_filter.findAll", query = "SELECT rr FROM Report_Filter AS rr")
-})
 @SequenceGenerator(name = "seq_report_filter", allocationSize = 1)
-public class Report_Filter implements Serializable {
-
-    private static final long serialVersionUID = -8031438007775305676L;
+public class ReportFilter {
 
     @Id
     @Column(name = "FILTRO")

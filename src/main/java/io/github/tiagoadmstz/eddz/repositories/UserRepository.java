@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(final String username);
 
-    @Query("select s.password from User as s where s.id = ?1")
+    @Query("select s.password from User as s where s.id = :id")
     String findPasswordById(final Long id);
 
 }
