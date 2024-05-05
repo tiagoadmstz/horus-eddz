@@ -1,4 +1,4 @@
-package io.github.tiagoadmstz.eddz.domains;
+package io.github.tiagoadmstz.eddz.domains.functions;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,17 +20,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Report_Group")
-@SequenceGenerator(name = "seq_report_group", allocationSize = 1)
-public class ReportGroup {
+@Table(name = "CAD_FUNCAO")
+@SequenceGenerator(name = "function_seq", sequenceName = "function_seq", allocationSize = 1)
+public class Function {
 
     @Id
-    @Column(name = "GRUPO")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_report_group")
+    @Column(name = "ID")
+    @GeneratedValue(generator = "function_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "NOME", length = 150)
-    private String nome;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "groupId")
-    private List<Report> reportList;
+    @Column(name = "DESCRICAO", length = 255, nullable = false)
+    private String description;
+    @OneToMany(mappedBy = "functionId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<FunctionParameter> functionParameter;
 
 }

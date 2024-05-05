@@ -1,8 +1,8 @@
-package io.github.tiagoadmstz.eddz.dtos;
+package io.github.tiagoadmstz.eddz.dtos.reports;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.tiagoadmstz.eddz.domains.ReportGroup;
+import io.github.tiagoadmstz.eddz.domains.reports.ReportGroup;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

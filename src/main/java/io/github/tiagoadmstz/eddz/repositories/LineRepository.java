@@ -1,6 +1,6 @@
 package io.github.tiagoadmstz.eddz.repositories;
 
-import io.github.tiagoadmstz.eddz.domains.Line;
+import io.github.tiagoadmstz.eddz.domains.materials.Line;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

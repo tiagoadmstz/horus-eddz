@@ -1,4 +1,4 @@
-package io.github.tiagoadmstz.eddz.domains;
+package io.github.tiagoadmstz.eddz.domains.functions;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

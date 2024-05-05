@@ -1,6 +1,6 @@
 package io.github.tiagoadmstz.eddz.repositories;
 
-import io.github.tiagoadmstz.eddz.domains.FunctionParameter;
+import io.github.tiagoadmstz.eddz.domains.functions.FunctionParameter;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
