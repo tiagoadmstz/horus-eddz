@@ -1,10 +1,13 @@
 package io.github.tiagoadmstz.eddz.services;
 
+import io.github.tiagoadmstz.eddz.config.EddzConfiguration;
 import io.github.tiagoadmstz.eddz.domains.functions.FunctionParameter;
 import io.github.tiagoadmstz.eddz.domains.functions.FunctionProfileParameter;
 import io.github.tiagoadmstz.eddz.domains.materials.Material;
 import io.github.tiagoadmstz.eddz.domains.tests.Equipment;
+import io.github.tiagoadmstz.eddz.dtos.reports.ReportGenerationDto;
 import io.github.tiagoadmstz.eddz.dtos.reports.ReportGroupDto;
+import io.github.tiagoadmstz.eddz.exceptions.ReportException;
 import io.github.tiagoadmstz.eddz.repositories.DdzRepository;
 import io.github.tiagoadmstz.eddz.repositories.EquipmentRepository;
 import io.github.tiagoadmstz.eddz.repositories.FunctionParameterRepository;
@@ -13,10 +16,17 @@ import io.github.tiagoadmstz.eddz.repositories.MaterialRepository;
 import io.github.tiagoadmstz.eddz.repositories.ReportGroupRepository;
 import io.github.tiagoadmstz.eddz.repositories.ReportRepository;
 import io.github.tiagoadmstz.eddz.repositories.TestRepository;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -28,6 +38,8 @@ import java.util.stream.Collectors;
 @Service
 public class ReportService {
 
+    private final JRDataSource dataSource;
+    private final EddzConfiguration eddzConfiguration;
     private final ReportRepository reportRepository;
     private final EquipmentRepository equipmentRepository;
     private final DdzRepository ddzRepository;
@@ -38,6 +50,8 @@ public class ReportService {
     private final LineRepository lineRepository;
 
     public ReportService(
+            JRDataSource dataSource,
+            EddzConfiguration eddzConfiguration,
             ReportRepository reportRepository,
             EquipmentRepository equipmentRepository,
             DdzRepository ddzRepository,
@@ -47,6 +61,8 @@ public class ReportService {
             FunctionParameterRepository functionParameterRepository,
             LineRepository lineRepository
     ) {
+        this.dataSource = dataSource;
+        this.eddzConfiguration = eddzConfiguration;
         this.reportRepository = reportRepository;
         this.equipmentRepository = equipmentRepository;
         this.ddzRepository = ddzRepository;
@@ -76,11 +92,11 @@ public class ReportService {
             final FunctionParameter functionParameter = fpOptional.get();
             final List<FunctionProfileParameter> functionProfileParameter = functionParameter.getFunctionProfileParameter();
             if (
-                    "N".equals(functionParameter.getDefaultValue()) &&
-                            !functionProfileParameter.isEmpty() &&
-                            !"T".equals(functionProfileParameter.get(0).getProfile())
+                "N".equals(functionParameter.getDefaultValue()) &&
+                !functionProfileParameter.isEmpty() &&
+                !"T".equals(functionProfileParameter.getFirst().getProfile())
             ) {
-                return functionProfileParameter.get(0).getValue();
+                return functionProfileParameter.getFirst().getValue();
             }
             return functionParameter.getDefaultValue();
         }
@@ -130,5 +146,32 @@ public class ReportService {
 
     public List<Long> findReportPermissionsByUserId(final Long userId) {
         return reportRepository.findPermissionByUser(userId);
+    }
+
+    public byte[] generatePdfReportByDto(final ReportGenerationDto report) throws ReportException {
+        try {
+            if (
+                report.getFilters().stream().anyMatch(ft -> StringUtils.isBlank(ft.getValor())) &&
+                (report.isSqlReport() && report.isDataCollect())
+            ) {
+                report.setReportPaths(eddzConfiguration.getReportsPath(), eddzConfiguration.getReportsLogo());
+                report.checkDefaultReportParameters();
+                if (report.isResultPerLabel()) {
+                    throw new ReportException("Error on trying generate report: copies sent to printer");
+                }
+                return generatePdfReport(report);
+            } else {
+                throw new ReportException("Error on trying generate report: required field");
+            }
+        } catch (JRException | IOException reportException) {
+            throw new ReportException(String.format("Error on trying generate report: %s", reportException.getMessage()));
+        }
+    }
+
+    private byte[] generatePdfReport(final ReportGenerationDto report) throws JRException, IOException {
+        final JasperPrint jasperPrint = JasperFillManager.fillReport(report.getInputStream(), report.getParameters(), dataSource);
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

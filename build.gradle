@@ -41,6 +41,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.postgresql:postgresql:42.7.3'
+	//reports
+	implementation 'com.lowagie:itext:2.1.7'
+	implementation 'net.sf.jasperreports:jasperreports:5.6.1'
+	implementation 'net.sf.jasperreports:jasperreports-fonts:5.6.1'
+	implementation 'org.olap4j:olap4j:1.2.0'
+	implementation 'com.toedter:jcalendar:1.4'
+	implementation 'org.jfree:jfreechart:1.5.0'
 	//utils
 	implementation 'org.apache.commons:commons-lang3:3.14.0'
 	//documentation

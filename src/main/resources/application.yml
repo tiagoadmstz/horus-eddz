@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /horus
 
+eddz:
+  reports-path: config/reports
+  reports-logo: config/images/logocooper.png
+
 spring:
   main:
     allow-bean-definition-overriding: true
