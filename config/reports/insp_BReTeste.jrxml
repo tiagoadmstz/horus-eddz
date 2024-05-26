@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipamentoperfil" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8fc951bc-ff3d-4a53-ba9d-f81123263803">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     DESC_TESTE,
+     Cad_EspecLab."ID_MATERIAL_ID" AS ID_MATERIAL_ID,
+     ESPEC_COMPLETO,
+     i.DATA_JET,
+     i.HORA_JET,
+     RESULTADO_TEXTO,
+     RESULTADO_NUM,
+     DESC_MATERIAL,
+     STATUS,
+     DATA_REGISTRO,
+     Cad_ResultadoInsp."TIPO" AS TIPO,
+     Cad_EspecLab."TIPO_ESPEC" AS TIPO_ESPEC
+FROM
+     Cad_EspecLab INNER JOIN Cad_ResultadoInsp ON Cad_EspecLab."ID" = Cad_ResultadoInsp."ID_ESPECIFICACAO_ID"
+     INNER JOIN Cad_Teste ON ID_TESTE_ID = COD_TESTE
+     INNER JOIN Cad_Material ON ID_MATERIAL_ID = MATERIAL
+     INNER JOIN INSP_Controle i ON Cad_ResultadoInsp.ID_CONTROLE = i.ID
+     WHERE CONVERT(date, DATA_REGISTRO, 101) BETWEEN $P{dataini} AND $P{datafim}
+     AND ID_MATERIAL_ID = $P{perfil}
+     AND TIPO = 'Re-Teste']]>
+	</queryString>
+	<field name="DESC_TESTE" class="java.lang.String"/>
+	<field name="ID_MATERIAL_ID" class="java.lang.Integer"/>
+	<field name="ESPEC_COMPLETO" class="java.lang.String"/>
+	<field name="DATA_JET" class="java.lang.String"/>
+	<field name="HORA_JET" class="java.lang.String"/>
+	<field name="RESULTADO_TEXTO" class="java.lang.String"/>
+	<field name="RESULTADO_NUM" class="java.lang.Double"/>
+	<field name="DESC_MATERIAL" class="java.lang.String"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="DATA_REGISTRO" class="java.sql.Timestamp"/>
+	<field name="TIPO" class="java.lang.String"/>
+	<field name="TIPO_ESPEC" class="java.lang.String"/>
+	<group name="Material" keepTogether="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+	</group>
+	<group name="JET">
+		<groupExpression><![CDATA[$F{HORA_JET}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="109">
+			<image isUsingCache="true">
+				<reportElement x="0" y="0" width="150" height="32" uuid="e7bacfb5-e35d-43e0-9884-05b044d1f86d"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="307" y="0" width="184" height="32" uuid="6580581c-6de0-4702-9813-265e870cb7ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório por teste]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="0" width="56" height="20" uuid="95c19d16-9daa-49f9-9b97-0c8db3d77fcd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data início:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="20" width="46" height="20" uuid="9a0964ba-722d-419f-9aeb-2be99f8f6b36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data fim:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="732" y="0" width="70" height="20" uuid="b5554070-bfdc-4cad-add1-e0b53591e8a6"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataini}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="722" y="20" width="80" height="20" uuid="7bbd3310-812b-4b3a-bdf5-9bcad67c39ab"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datafim}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="20" uuid="916632f9-380c-444c-823f-a9d15a81c9fc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perfil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="80" width="207" height="20" uuid="21319dac-7d66-437e-b327-ba4fe7100a48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teste]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="80" width="142" height="20" uuid="aadf6089-72c9-4b39-9000-1095c10ddc7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Especificação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="449" y="80" width="111" height="20" uuid="975d3fc3-7ef0-4a23-90e8-3a4420928705"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data/Hora JET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="560" y="80" width="127" height="20" uuid="1109a8cc-8bfc-45f3-b109-bea8245ee50f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="687" y="80" width="115" height="20" uuid="5809ccc4-1693-473c-9b16-c0a756db8d02"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="104" width="802" height="1" uuid="71e9123e-2809-4d5f-ba28-8b4e84fdfc23"/>
+			</line>
+			<staticText>
+				<reportElement x="359" y="27" width="78" height="20" forecolor="#FF0000" uuid="5baf5bfe-0668-49f5-85a1-d51f87f1ec70"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Re-Teste]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="20" backcolor="#EFEFEF" uuid="3f15d931-3b1e-4c83-89b3-21fdd089756a">
+					<printWhenExpression><![CDATA[new Boolean (($V{COLUMN_COUNT}.intValue()%2)==0)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="f897843e-e7ed-4089-95cd-db369b0361f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ID_MATERIAL_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="207" height="20" uuid="c45cd49e-d0b4-4564-a1ac-2e9030c53eea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DESC_TESTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="0" width="142" height="20" uuid="2f09bce6-dee0-4063-99cd-597d314ca595"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ESPEC_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="0" width="111" height="20" uuid="d1b5f819-3512-4275-a4ea-c3988266def5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATA_JET}+" "+$F{HORA_JET}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="560" y="0" width="127" height="20" uuid="82d4d5e2-dc7c-4921-b97a-97a4c0984308"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TIPO_ESPEC} == "Texto" ? $F{RESULTADO_TEXTO} : $F{RESULTADO_NUM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="687" y="0" width="115" height="20" uuid="76e09637-05ed-4dee-a8e2-632cfd797455"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{STATUS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="117" height="20" uuid="217aff9e-fce3-42ec-9a46-db90815d133b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="785" y="0" width="15" height="20" uuid="faf95ce3-a214-4133-b0e0-a46b51e84063"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="717" y="0" width="68" height="20" uuid="68342109-e5ce-4462-815f-5b5614a82fe6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

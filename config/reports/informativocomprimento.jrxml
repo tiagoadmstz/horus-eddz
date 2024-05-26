@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="informativocomprimento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="65dc96b9-b609-4012-a600-b0ffa86d319f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     MAT_PROJETO,
+     N_DESENHO,
+     N_PLANO,
+     TIPO_LINHA,
+     ESP_LINHA,
+     ESP_EQUIPAMENTO,
+     ORDEM_OP,
+     ORDEM_EQUIP,
+     ORDEM_TESTE,
+     DESC_TESTE,
+     ESPEC_COMPLETO,
+     ESP_MATERIAL,
+BPCS
+FROM
+     Qry_Result
+
+WHERE
+ESP_EQUIPAMENTO='Cortadeira'
+AND
+ESP_LINHA=$P{linha}
+
+and(DESC_TESTE= 'Comprimento 1 do Perfil 1'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 2'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 3'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 4'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 5'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 6'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 7'
+or
+DESC_TESTE= 'Comprimento 1 do Perfil 8')
+
+
+ORDER BY
+ESP_MATERIAL,ORDEM_EQUIP,ORDEM_TESTE ASC]]>
+	</queryString>
+	<field name="MAT_PROJETO" class="java.lang.String"/>
+	<field name="N_DESENHO" class="java.lang.String"/>
+	<field name="N_PLANO" class="java.lang.String"/>
+	<field name="TIPO_LINHA" class="java.lang.String"/>
+	<field name="ESP_LINHA" class="java.lang.String"/>
+	<field name="ESP_EQUIPAMENTO" class="java.lang.String"/>
+	<field name="ORDEM_OP" class="java.lang.Integer"/>
+	<field name="ORDEM_EQUIP" class="java.lang.Integer"/>
+	<field name="ORDEM_TESTE" class="java.lang.Integer"/>
+	<field name="DESC_TESTE" class="java.lang.String"/>
+	<field name="ESPEC_COMPLETO" class="java.lang.String"/>
+	<field name="ESP_MATERIAL" class="java.lang.Integer"/>
+	<field name="BPCS" class="java.lang.String"/>
+	<group name="Linha" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{ESP_LINHA}]]></groupExpression>
+		<groupHeader>
+			<band height="64">
+				<textField>
+					<reportElement x="213" y="0" width="46" height="44" uuid="e295d38a-4b48-4f9e-8c73-40f25aeb0f4e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ESP_LINHA}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="378" y="0" width="124" height="44" uuid="cbce0073-27b9-4291-96b6-4e44def2abd8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="16"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TIPO_LINHA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="259" y="0" width="119" height="44" uuid="c4f0228b-6a6d-4aae-abb5-479528cf04e5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo da Linha:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="63" width="554" height="1" isRemoveLineWhenBlank="true" uuid="b56b93c5-82a6-483f-ac64-ea0264bd53e5"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="0" y="-1" width="555" height="1" isRemoveLineWhenBlank="true" uuid="50f2a57a-5745-4a44-8793-e3890e902b36"/>
+				</line>
+				<line>
+					<reportElement x="0" y="0" width="1" height="64" uuid="7c36f840-704e-4891-9827-f9b114f1d889"/>
+				</line>
+				<line>
+					<reportElement x="554" y="-1" width="1" height="65" uuid="1e68dec1-13f0-4b01-a1bf-d5da9f1fdcee"/>
+				</line>
+				<line>
+					<reportElement x="0" y="44" width="554" height="1" uuid="339b10d4-a75e-4c55-9eb2-81fe9f844350"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<rectangle>
+					<reportElement x="1" y="45" width="553" height="18" uuid="867d859a-83e4-4c8b-864a-8b8bdfcc3abb"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="0" y="45" width="110" height="18" uuid="035fffa0-e535-4a78-95e6-b806f600a719"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Material]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="193" y="44" width="105" height="18" uuid="c66edbfa-f0b9-4a67-92e4-8b041fa905f5"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descrição]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="426" y="45" width="127" height="18" uuid="2e2ed443-29c8-49b7-8c62-419096dd7792"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Especificação]]></text>
+				</staticText>
+				<line>
+					<reportElement x="426" y="45" width="1" height="18" isRemoveLineWhenBlank="true" uuid="3b39f8b3-d05b-4c4f-8933-8b93e0f222c0">
+						<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="110" y="45" width="1" height="18" isRemoveLineWhenBlank="true" uuid="14ea6241-64be-4276-bfff-3af08ccc16fd">
+						<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="111" y="45" width="81" height="18" uuid="545bbcc3-f499-4a09-bbb4-7a0efaf231c6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Bpcs]]></text>
+				</staticText>
+				<line>
+					<reportElement x="192" y="45" width="1" height="17" isRemoveLineWhenBlank="true" uuid="1e35f5c6-0fa6-4b6a-bde0-c3119b703be2">
+						<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="152" y="0" width="61" height="44" uuid="fc4508c4-a142-4a5a-9c68-5c9d7d387011"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Linha:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="298" y="45" width="128" height="18" uuid="a8ccb202-2869-47c2-be18-817b060ecb5f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nº Perfil]]></text>
+				</staticText>
+				<line>
+					<reportElement x="298" y="45" width="1" height="19" isRemoveLineWhenBlank="true" uuid="53f070cf-47e5-4a4a-8206-3dd4610d2393">
+						<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="48" width="554" height="26" uuid="94be7ce0-a8e0-40b4-a3a6-bc9ae9d24799"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprimento de Perfil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="0" width="220" height="38" uuid="890aed2a-d42b-4c2f-af18-8f4ae725a329"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Listagem - Extrusão]]></text>
+			</staticText>
+			<image isUsingCache="true">
+				<reportElement x="404" y="0" width="150" height="32" uuid="fa9cba72-6aa0-42de-9b35-edea7a169574"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="20" isRemoveLineWhenBlank="true" backcolor="#CCCCCC" uuid="75338a5e-0165-4490-a8b4-65debde229f4">
+					<printWhenExpression><![CDATA[new Boolean (($V{COLUMN_COUNT}.intValue()%2)==0) && $F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="193" y="0" width="105" height="20" isRemoveLineWhenBlank="true" uuid="dc9e45b2-eba9-48fe-8954-ec7449cca5d3">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 1") ? "Comprimento do Perfil 1":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 2") ? "Comprimento do Perfil 2":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 3") ? "Comprimento do Perfil 3":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 4") ? "Comprimento do Perfil 4":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 5") ? "Comprimento do Perfil 5":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 6") ? "Comprimento do Perfil 6":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 7") ? "Comprimento do Perfil 7":$F{DESC_TESTE}.equals("Comprimento 1 do Perfil 8") ? "Comprimento do Perfil 8": $F{DESC_TESTE}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="554" y="0" width="1" height="20" isRemoveLineWhenBlank="true" uuid="9f349a14-3945-40bf-a0b1-6ac2cbfda048">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="19" width="555" height="1" isRemoveLineWhenBlank="true" uuid="c1d6116e-c907-4871-beb5-95039ca42f16">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="20" isRemoveLineWhenBlank="true" uuid="7992559c-dd95-430f-ad32-ed2b7a440592">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="1" y="0" width="109" height="20" uuid="5d4b30b2-257d-48fb-9cee-0dace74b54f2">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESP_MATERIAL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="110" y="0" width="1" height="20" isRemoveLineWhenBlank="true" uuid="15efe5d0-ad80-4f92-912f-81ed01eeb290">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="426" y="0" width="1" height="20" isRemoveLineWhenBlank="true" uuid="e1c3b73e-ac45-4a35-b0f3-62de38a2e15a">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="111" y="0" width="81" height="20" uuid="9ea858a3-c9f7-44f1-8e34-7d4f2d6f96a0">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BPCS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="0" width="126" height="20" isRemoveLineWhenBlank="true" uuid="d2a33904-5eed-4df7-b2c8-8bf66f5c1276">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESPEC_COMPLETO}.replaceAll("\\(\\d{8}\\)", "")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="192" y="0" width="1" height="19" isRemoveLineWhenBlank="true" uuid="2a558a6b-96d5-4d05-8af9-633c1bfae770">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="299" y="0" width="127" height="20" isRemoveLineWhenBlank="true" uuid="09dfb429-df00-4e68-8d63-4c6cd89d5e55">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK" && $F{ESPEC_COMPLETO}!="OK (referência*)"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESPEC_COMPLETO}.replaceAll("\\s{1}.*", "")]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="298" y="0" width="1" height="20" isRemoveLineWhenBlank="true" uuid="6ed23abe-77fc-4eea-bcf8-2760f7f79487">
+					<printWhenExpression><![CDATA[$F{ESPEC_COMPLETO}!="OK"]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<textField>
+				<reportElement x="472" y="2" width="68" height="20" uuid="c786cd9e-f3ab-4bc4-8485-8a8884e86602"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="540" y="2" width="15" height="20" uuid="b03d536e-b0fc-4ae0-8665-bded3f67700c"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="2" y="2" width="117" height="20" uuid="85acf9ce-ea15-4a83-983c-c9a0c60631e2"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="457471c4-5c3f-4f51-83dc-729110885bf7"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

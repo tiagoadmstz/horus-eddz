@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipamentoperfil" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8fc951bc-ff3d-4a53-ba9d-f81123263803">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/Relatorios/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="proximaoperacao" class="java.io.InputStream"/>
+	<parameter name="operacao" class="java.io.InputStream"/>
+	<parameter name="operacaoinspecao" class="java.io.InputStream"/>
+	<parameter name="critico" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT
+ESP_MATERIAL,
+DESC_MATERIAL,
+EQU_OPERACAO,
+ORDEM,
+COD_OP,
+COD_SIMBOL_OP
+FROM
+     Qry_Result
+WHERE
+     ESP_MATERIAL = $P{perfil}
+ORDER BY
+     ORDEM ASC]]>
+	</queryString>
+	<field name="ESP_MATERIAL" class="java.lang.Integer"/>
+	<field name="DESC_MATERIAL" class="java.lang.String"/>
+	<field name="EQU_OPERACAO" class="java.lang.String"/>
+	<field name="ORDEM" class="java.lang.Integer"/>
+	<field name="COD_OP" class="java.lang.Integer"/>
+	<field name="COD_SIMBOL_OP" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer" calculation="Count">
+		<initialValueExpression><![CDATA[new Integer(0)]]></initialValueExpression>
+	</variable>
+	<group name="OPERACAO">
+		<groupExpression><![CDATA[$F{EQU_OPERACAO}]]></groupExpression>
+		<groupHeader>
+			<band height="47">
+				<line>
+					<reportElement x="38" y="27" width="519" height="1" uuid="b548ff55-83ae-4771-8138-23cd41bb1bae"/>
+				</line>
+				<line>
+					<reportElement x="38" y="46" width="519" height="1" uuid="7209200d-3cd8-4063-9889-ad9b82fdca63"/>
+				</line>
+				<line>
+					<reportElement x="38" y="0" width="1" height="46" uuid="d6e9424a-54b5-49b6-813a-662b821f5722"/>
+				</line>
+				<line>
+					<reportElement x="92" y="-2" width="1" height="48" uuid="84caa5d2-2df8-452f-bf02-d2a56b6f0069"/>
+				</line>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="172" y="0" width="345" height="27" isRemoveLineWhenBlank="true" uuid="644d2d71-1b6f-4f34-bd76-485c3c04c53e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{EQU_OPERACAO}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="161" y="0" width="1" height="46" uuid="7251d182-b2c5-4b74-a527-b459bae15a71"/>
+				</line>
+				<line>
+					<reportElement x="556" y="0" width="1" height="47" uuid="e3819bf1-ec4e-4ab1-83d8-e795d2ec7cc0"/>
+				</line>
+				<textField isBlankWhenNull="true">
+					<reportElement isPrintRepeatedValues="false" x="93" y="0" width="68" height="26" uuid="0ea9c763-45db-4c1b-805f-acf88d12dced"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{COD_OP}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="521" y="0" width="1" height="47" uuid="c2a754b6-0b96-4f6b-8f23-e571a2e759a2"/>
+				</line>
+				<image isUsingCache="true">
+					<reportElement x="59" y="29" width="28" height="17" uuid="d323d1e5-6e72-4038-935d-11e41012a7a8">
+						<printWhenExpression><![CDATA[!$F{EQU_OPERACAO}.equals( "Embalar Perfil" )]]></printWhenExpression>
+					</reportElement>
+					<imageExpression><![CDATA[$P{proximaoperacao}]]></imageExpression>
+				</image>
+				<image isUsingCache="true">
+					<reportElement x="533" y="6" width="15" height="26" uuid="17808350-7ac8-4cc1-ac52-9c345f08fd7f">
+						<printWhenExpression><![CDATA[$F{COD_SIMBOL_OP}.equals( "Crítico" )]]></printWhenExpression>
+					</reportElement>
+					<imageExpression><![CDATA[$P{critico}]]></imageExpression>
+				</image>
+				<image isUsingCache="true">
+					<reportElement x="53" y="2" width="30" height="24" uuid="b7d326b7-9dc3-4077-b546-3e1730ff689e">
+						<printWhenExpression><![CDATA[!$F{EQU_OPERACAO}.equals("Inspeção Final")]]></printWhenExpression>
+					</reportElement>
+					<imageExpression><![CDATA[$P{operacao}]]></imageExpression>
+				</image>
+				<image isUsingCache="true">
+					<reportElement x="54" y="2" width="40" height="24" uuid="d984cf35-9364-469a-9b8a-dafe7c8f62b0">
+						<printWhenExpression><![CDATA[$F{EQU_OPERACAO}.equals("Inspeção Final")]]></printWhenExpression>
+					</reportElement>
+					<imageExpression><![CDATA[$P{operacaoinspecao}]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="149" splitType="Stretch">
+			<rectangle>
+				<reportElement x="39" y="52" width="518" height="44" uuid="510a6303-85d8-4db9-bd25-4ee044e2ab64"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="88" y="116" width="121" height="15" uuid="16c1df6b-82ae-4e1e-abee-86094737945e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Proxima Opração / Seguinte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="55" width="88" height="14" uuid="cd2c7660-2c80-4629-88d7-286182dc78ce"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número da peça:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="45" y="69" width="97" height="27" uuid="a233fb90-8ab8-41f2-8af4-c5f750ed3943"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{perfil}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="522" y="69" width="27" height="27" uuid="a29157f0-9af5-4881-b9af-be5080d61eb0"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="540" y="69" width="17" height="27" uuid="f3d7d135-7e13-4b06-8796-ba4fdb599983"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="511" y="52" width="1" height="44" uuid="36c8f03f-9dd6-44fe-86aa-889955b5d324"/>
+			</line>
+			<line>
+				<reportElement x="142" y="52" width="1" height="44" uuid="a2642e6e-24ff-437d-8321-97b4ced5fd1a"/>
+			</line>
+			<staticText>
+				<reportElement x="517" y="55" width="35" height="14" uuid="03f45bcd-bfd1-4689-9419-8f6ee7a1973a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="16" width="518" height="29" uuid="31ec89a0-4c52-4803-81da-b01d4b7ab3d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAGRAMA DE FLUXO DE PROCESSO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="146" y="55" width="100" height="14" uuid="2b1bd76b-9c7c-4f0b-87bf-14ddc7cdc72c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição da peça:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="149" y="69" width="140" height="27" uuid="cea3c081-6983-4b21-b06a-2083f65910dc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DESC_MATERIAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="292" y="55" width="100" height="14" uuid="974023ae-819f-49ba-9f51-2bf7e43e6493"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Organização:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="69" width="215" height="27" uuid="0fe60672-5fe9-4cf6-9015-96c74b4b9515"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Cooper Standard Automotive Brasil Sealing ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="116" width="85" height="15" uuid="232db5af-84c5-4509-8856-630cc0eb5bee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Operação / Inspeção]]></text>
+			</staticText>
+			<line>
+				<reportElement x="39" y="133" width="518" height="1" uuid="d5cfff1d-862f-4401-ac22-4c3afa47ab95"/>
+			</line>
+			<staticText>
+				<reportElement x="310" y="116" width="46" height="15" uuid="1d3c62cc-f0fa-48df-a559-e1f00fb29a4b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Operação]]></text>
+			</staticText>
+			<line>
+				<reportElement x="556" y="112" width="1" height="37" uuid="6c1fc49c-43db-4064-9024-d18c82fc309e"/>
+			</line>
+			<line>
+				<reportElement x="38" y="113" width="1" height="36" uuid="3d76b2a0-d4b3-43f5-b315-5d6ba780d1cc"/>
+			</line>
+			<line>
+				<reportElement x="38" y="112" width="518" height="1" uuid="86fb26b3-357e-4047-8a43-5fc7e9873d39"/>
+			</line>
+			<line>
+				<reportElement x="289" y="52" width="1" height="44" uuid="30cd6bd7-f53f-4d6b-ac08-92a79ff434a9"/>
+			</line>
+			<staticText>
+				<reportElement x="39" y="134" width="53" height="14" uuid="7bc00904-5afa-4f8e-80b4-299e7e8ab549"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fluxo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="92" y="134" width="1" height="13" uuid="d14b7b6f-3635-49ab-b593-08cb2d799c9d"/>
+			</line>
+			<line>
+				<reportElement x="38" y="148" width="519" height="1" uuid="5d52741a-8b72-4414-8791-bbe9af63a534"/>
+			</line>
+			<staticText>
+				<reportElement x="93" y="134" width="68" height="14" uuid="5721a732-5c0f-42b3-ac32-1b8298c3e493"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº. OP]]></text>
+			</staticText>
+			<line>
+				<reportElement x="161" y="134" width="1" height="14" uuid="830e732f-6e48-4e26-b905-b41bab23832c"/>
+			</line>
+			<staticText>
+				<reportElement x="162" y="135" width="359" height="14" uuid="9ac81f53-1b0a-471c-a956-5e39a85eb6d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição da Operação do Processo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="521" y="133" width="1" height="15" uuid="b9d78e86-56ed-4a58-a11d-849a866e2ba4"/>
+			</line>
+			<staticText>
+				<reportElement x="522" y="134" width="34" height="14" uuid="0b81bd49-1f9f-4e1e-9e4d-a9e1aceeac26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CE]]></text>
+			</staticText>
+			<image isUsingCache="true">
+				<reportElement x="67" y="116" width="21" height="15" uuid="34184e06-71ff-49dc-8d09-a4d3957030e8"/>
+				<imageExpression><![CDATA[$P{proximaoperacao}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="286" y="117" width="24" height="14" uuid="b5f413d7-6136-4f36-9ce8-dd411dd007ee"/>
+				<imageExpression><![CDATA[$P{operacao}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="429" y="116" width="21" height="15" uuid="9f0370a5-277c-4e58-a7e4-de21e6d70d08"/>
+				<imageExpression><![CDATA[$P{operacaoinspecao}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<summary>
+		<band height="22">
+			<subreport>
+				<reportElement x="38" y="0" width="519" height="22" uuid="d471f299-75d3-41bf-bb81-eb0c8cce4784"/>
+				<subreportParameter name="perfil">
+					<subreportParameterExpression><![CDATA[$P{perfil}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "fluxograma_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

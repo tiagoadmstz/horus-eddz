@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipamentoperfil" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8fc951bc-ff3d-4a53-ba9d-f81123263803">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+     TIPO_LINHA,
+     DESC_MATERIAL,
+     ESP_EQUIPAMENTO,
+     EQU_OPERACAO,
+     ORDEM,
+     ESP_LINHA,
+     ESP_MATERIAL,
+     ORIGEM
+FROM
+	Qry_Result
+WHERE
+     ESP_MATERIAL = $P{perfil}
+AND
+
+	ORIGEM = 'Ficha Máquina'
+
+ORDER BY ORDEM ASC]]>
+	</queryString>
+	<field name="TIPO_LINHA" class="java.lang.String"/>
+	<field name="DESC_MATERIAL" class="java.lang.String"/>
+	<field name="ESP_EQUIPAMENTO" class="java.lang.String"/>
+	<field name="EQU_OPERACAO" class="java.lang.String"/>
+	<field name="ORDEM" class="java.lang.Integer"/>
+	<field name="ESP_LINHA" class="java.lang.String"/>
+	<field name="ESP_MATERIAL" class="java.lang.Integer"/>
+	<field name="ORIGEM" class="java.lang.String"/>
+	<group name="ESP_MATERIAL" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{ESP_MATERIAL}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<textField>
+					<reportElement x="134" y="0" width="85" height="20" uuid="79fd4a85-9cfd-4344-9523-f8410c01edcc"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ESP_MATERIAL}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="231" y="0" width="186" height="20" uuid="b4152189-fb21-473b-a9b5-3ddc93e5d9ab"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESC_MATERIAL}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="24" width="555" height="1" uuid="cb80a71f-754c-4ef2-b642-43743cbf1c92"/>
+				</line>
+				<staticText>
+					<reportElement x="220" y="0" width="11" height="20" uuid="a9e1892c-8f54-457c-ae13-279cb4bb3e62"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="3" width="220" height="38" uuid="6580581c-6de0-4702-9813-265e870cb7ec"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[Listagem - Qualidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="51" width="554" height="20" uuid="84383c73-5a25-4243-bdaf-5fb0bd4a54af"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Listagem de Equipamento/Perfil]]></text>
+			</staticText>
+			<image isUsingCache="true">
+				<reportElement x="404" y="3" width="150" height="32" uuid="59421ff3-661f-4d3c-b465-fb3594d079f8"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="135" y="0" width="271" height="23" isRemoveLineWhenBlank="true" uuid="162a8fff-9de8-4c2a-9f03-3e4753f81ecb"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ESP_EQUIPAMENTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

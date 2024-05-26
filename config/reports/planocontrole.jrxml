@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planocontrole" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1150" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8f34dc82-4150-4c73-935a-fbd789f3fba7">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="586"/>
+	<parameter name="SUBREPORT_DIR" class="java.net.URL" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/Users/rsouza10.AUBURN/Desktop/ParaTeste/src/Relatorios/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="criticosegurança" class="java.io.InputStream"/>
+	<parameter name="estoqueprocesso" class="java.io.InputStream"/>
+	<parameter name="fluxoprocesso" class="java.io.InputStream"/>
+	<parameter name="provaderro" class="java.io.InputStream"/>
+	<parameter name="segurancaoperador" class="java.io.InputStream"/>
+	<parameter name="critico" class="java.io.InputStream" isForPrompting="false"/>
+	<parameter name="segurancaobrigatorio" class="java.io.InputStream"/>
+	<parameter name="inspecaoqualidade" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT
+LINHA,
+     Cad_Linha."ORDEM" AS Cad_Linha_ORDEM,
+     Cad_Linha."TIPO_LINHA" AS Cad_Linha_TIPO_LINHA,
+     Cad_Linha."SETOR" AS Cad_Linha_SETOR,
+     Cad_Linha."ID_LINHA" AS Cad_Linha_ID_LINHA,
+     Cad_Linha."N_PLANO" AS Cad_Linha_N_PLANO,
+     Cad_Linha."CONTATO_CHAVE" AS Cad_Linha_CONTATO_CHAVE,
+     Cad_Linha."EQUIPE_PRINCIPAL" AS Cad_Linha_EQUIPE_PRINCIPAL,
+     CAST(DATA_INICIAL as datetime)DATA
+FROM
+     "dbo"."Cad_Linha" Cad_Linha
+
+
+
+where
+
+LINHA=$P{linha}]]>
+	</queryString>
+	<field name="LINHA" class="java.lang.String"/>
+	<field name="Cad_Linha_ORDEM" class="java.lang.Integer"/>
+	<field name="Cad_Linha_TIPO_LINHA" class="java.lang.String"/>
+	<field name="Cad_Linha_SETOR" class="java.lang.String"/>
+	<field name="Cad_Linha_ID_LINHA" class="java.lang.Integer"/>
+	<field name="Cad_Linha_N_PLANO" class="java.lang.String"/>
+	<field name="Cad_Linha_CONTATO_CHAVE" class="java.lang.String"/>
+	<field name="Cad_Linha_EQUIPE_PRINCIPAL" class="java.lang.String"/>
+	<field name="DATA" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="153" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="1149" height="29" uuid="ef5756f3-402a-4854-aa7f-60c1609782b3"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plano de Controle do Processo e Produto]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="1" height="150" uuid="8818f1f5-74d9-4a19-8e77-96e79401e165"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="150" width="1150" height="1" uuid="52dc5e0c-9cdc-460b-803e-6932a33a28ac"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1149" y="1" width="1" height="150" uuid="64b11816-f920-4db4-9014-274a868e91c3"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="70" width="69" height="20" uuid="68396d3e-9e26-415a-9e14-b607236f1677"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Plano de Controle:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="5" y="40" width="19" height="20" uuid="09addf73-709c-4fbd-99e6-3d7992d8e3a6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="26" y="40" width="45" height="20" uuid="17d8393a-8718-4c92-8ca0-afa03668843c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Protótipo]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="191" y="40" width="19" height="20" backcolor="#999999" uuid="1a6ab8ee-8bdb-49cc-9239-37f0d7efe634"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="212" y="40" width="49" height="20" uuid="c79a9af4-a8ad-4b26-a952-08dee7be856b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produção]]></text>
+			</staticText>
+			<line>
+				<reportElement x="75" y="30" width="1" height="38" uuid="c99b72ac-f0a2-4e21-9d0e-550c2cf0c65e"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="68" width="264" height="1" uuid="b0d2b6e7-34d2-4ce0-8109-4d0fd510bb98"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="265" y="30" width="1" height="120" uuid="5146d1b0-916f-4fd8-b012-1b12274310b4"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="2" y="90" width="35" height="20" uuid="6424918a-dd54-4e6a-b635-4afa956f7b8f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº da Peça:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="110" width="47" height="20" uuid="71ffdd39-6fbf-449e-bcff-fdcbb35724eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº de Desenho:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="130" width="59" height="20" uuid="87195a8e-0969-4ff6-b707-9dbc7f208c0d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição da Peça:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="30" width="46" height="20" uuid="de3e1699-390d-4d3c-825c-dbec370e310c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contato Chave:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="50" width="56" height="20" uuid="63bdd643-5293-41eb-8f50-73bfdc4c5fd4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipe Principal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="90" width="200" height="20" uuid="edb46753-a345-4273-abd9-fa46f55f400a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Conforme Ficha de Controle Extrusão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="49" y="110" width="181" height="20" uuid="d4081ccc-b707-4284-b35b-850daa0a517f"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Conforme Ficha de Controle Extrusão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="130" width="166" height="20" uuid="2d8e17ee-7bc4-4888-bc1c-5fa70cb65c80"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Conforme Ficha de Controle Extrusão]]></text>
+			</staticText>
+			<line>
+				<reportElement x="187" y="30" width="1" height="38" uuid="d338a231-82aa-4d30-a785-6a80fb270783"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<rectangle>
+				<reportElement x="80" y="40" width="20" height="20" uuid="e6e86ea0-7ebc-45b1-9e83-8c1a58708d67"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="102" y="40" width="80" height="20" uuid="60e8ba45-506a-48d6-aab3-9ef1e3fc35ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pré-Lançamento]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="29" width="1149" height="1" uuid="cde72d95-96a6-462c-b2c1-8a16d4f683f4"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="89" width="1148" height="1" uuid="884ffb68-068d-4c6d-9d00-dba37169b125"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="110" width="264" height="1" uuid="652f4e35-354c-4b3b-b423-654e8a3137b9"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="130" width="264" height="1" uuid="a2926857-8b95-48b9-ab9c-88523d70b431"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="265" y="89" width="102" height="61" uuid="bf5c5f73-9e4a-428a-ab6f-2e2fd59d5e51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Símbolos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="69" width="56" height="20" uuid="fd593559-703d-4e3b-9887-3cb1babac285"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fornecedor/Planta:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="130" width="260" height="20" uuid="a31d29c6-880f-412e-903b-4c3261d3fbd3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fluxo do Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="110" width="260" height="20" uuid="17994f40-9019-4565-b7a5-7d83bf1184a7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estoque em Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="90" width="260" height="20" uuid="50be337e-f35e-4396-96a5-0c0f65503b68"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Característica de Segurança]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="629" y="110" width="260" height="20" uuid="c7ffa69a-283f-484a-b38d-e77a07f0bb3b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Segurança do Operador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="629" y="130" width="260" height="20" uuid="4827192f-9d3a-4174-8f7b-75e67393e5ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Característica Crítico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="629" y="90" width="260" height="20" uuid="d4b0e435-29b3-4424-af97-682c4bf07fad"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prova de Erro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="889" y="90" width="260" height="20" uuid="560d2624-0426-4b5f-91bf-1e34a525df33"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sequência Obrigatória]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="889" y="111" width="260" height="39" uuid="e649126c-4db6-496b-a52b-d8c5a4edabbe"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inspeção da Qualidade]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="0" width="1149" height="1" uuid="3d828b41-1d3b-4727-b8ef-18b3c4b67926"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="266" y="50" width="803" height="1" uuid="7cbbf176-617b-4ab0-b43c-b6fb2eb44e07"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="265" y="68" width="885" height="1" uuid="61025246-6169-49f6-8a99-0b004778cbdb"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="365" y="110" width="784" height="1" uuid="a5a94942-ee8b-4270-8a33-8b2b9770b66d"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="366" y="130" width="521" height="1" uuid="a0345d53-2c9b-41a6-a332-1205f796d87a"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="887" y="90" width="1" height="60" uuid="b0357dee-9dd7-41be-950c-38d4daf95c02"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="365" y="90" width="1" height="61" uuid="9d79b102-49e7-45aa-88fc-467a0c6962a3"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="627" y="89" width="1" height="61" uuid="b30f507b-5e68-4928-837d-8483553ea2f0"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="627" y="30" width="1" height="20" uuid="66fbaab2-bdfb-45f7-8482-24b2fe9c8fcd"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="804" y="30" width="35" height="20" uuid="e26e650f-9848-4f79-83dc-053c294b1ba6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Inicial:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1069" y="29" width="1" height="39" uuid="f8d55773-f493-4ed5-b89e-0f7727b57dbe"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="1074" y="29" width="63" height="39" uuid="d21f39ff-217d-4a75-831e-949f8ac93910"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="1132" y="29" width="36" height="39" uuid="c9fe8e28-8ebb-4861-84a1-0e214e852026"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="71" y="70" width="194" height="20" uuid="07c8d8a6-1177-4999-956f-dcccda9a96ca"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cad_Linha_N_PLANO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="313" y="30" width="285" height="20" uuid="fada7f92-5e5a-4fdf-8e0b-fa965b719b74"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cad_Linha_CONTATO_CHAVE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="51" width="307" height="17" uuid="48f65635-1510-432a-a011-73a81102ca1d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cad_Linha_EQUIPE_PRINCIPAL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="323" y="69" width="200" height="20" uuid="d42fcff7-a7c7-4a67-bc3c-6f2f26f4100e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Cooper Standard Automotive Sealing, Brasil, Varginha - MG]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="839" y="30" width="100" height="20" uuid="47313033-f376-4f89-8670-20b6aa37694e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
+			</textField>
+			<image isUsingCache="true">
+				<reportElement x="7" y="1" width="189" height="28" uuid="9688dcfe-972a-49c3-8b70-75fc4fc3d9b7"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="598" y="92" width="34" height="16" uuid="3f649418-5de8-4055-833b-cfd951392001"/>
+				<imageExpression><![CDATA[$P{criticosegurança}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="600" y="113" width="34" height="16" uuid="75a68217-a6f2-4de7-9a7b-6b405c8ea7d6"/>
+				<imageExpression><![CDATA[$P{estoqueprocesso}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="595" y="133" width="34" height="16" uuid="346f8645-fc4e-42c0-b869-610943c67ddd"/>
+				<imageExpression><![CDATA[$P{fluxoprocesso}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="851" y="92" width="34" height="16" uuid="a0a907d9-b342-4283-885a-24fc6a04eb3c"/>
+				<imageExpression><![CDATA[$P{provaderro}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="857" y="113" width="34" height="16" uuid="e3bd9a52-96c3-4e6c-a896-7885018a2829"/>
+				<imageExpression><![CDATA[$P{segurancaoperador}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="857" y="133" width="34" height="16" uuid="39de9da9-2575-4d8e-ae09-4e366fecec30"/>
+				<imageExpression><![CDATA[$P{critico}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="1119" y="121" width="34" height="16" uuid="fae912f9-1572-463b-81fc-71d454ba93fa"/>
+				<imageExpression><![CDATA[$P{inspecaoqualidade}]]></imageExpression>
+			</image>
+			<image isUsingCache="true">
+				<reportElement x="1118" y="92" width="34" height="16" uuid="a9e2537f-1bae-4418-8a23-05e198710517"/>
+				<imageExpression><![CDATA[$P{segurancaobrigatorio}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="605" splitType="Stretch">
+			<staticText>
+				<reportElement x="828" y="79" width="323" height="500" isPrintWhenDetailOverflows="true" uuid="7749c332-7ae3-4a04-8a4c-a1b8c976c496"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[1 - Verificar qual a Não - Conformidade;
+2 - É possível estancar o problema de forma simples e ágil? Se sim:
+- Tomar as ações para resolução do problema;
+- Anotar na ficha de controle o que foi executado;
+- Verificar a eficácia da ação tomada, observando as próximas peças produzidas.
+
+Se não:
+- Comunicar o líder da área;
+- Pausar a produção até que o problema seja resolvido
+- O líder deve comunicar as áreas de apoio necessárias:
+ * Em caso de parada de linha comunicar a Logística;
+ * Em caso de problemas no processo comunicar o engenheiro de processo da área;
+ * Em caso de problemas da qualidade comunicar o auditor de qualidade.
+
+2º Após a Linha/Célular ser establizidada.
+- Verificar o ponto de corte, colocar as peças não conformes na caixa de scrap e identificar anotando o motivo do rejeito no
+cartão de Scrap "Vermelho" (nº d_0191 v04).
+- Caso a não conformidade seja no processo, e as peças não apresentarem anomalias visíveis, identificar
+as peças como produto suspeito "Cartão Amarelo" (nº d_1145 v02), para ser enviado para quarentena para análise posterior.
+- Registrar na ficha de controle qualquer intervenção e tomadas de decisões (d_0071);
+- Refazer a leitura da ficha de controle;
+- Liberar 1ª peça, garantindo qualidade da peça; (d_0193);
+- Verificar resultados dos testes no produto, e caso ainda continuar REPROVADO, PARAR o processo;
+
+3º Caso a falha não afete o funcional, no momento da ocorrência o Líder ou Supervisor deve comunicar o Engenheiro/ Analista de
+Qualidade do cliente em questão, para uma possível produção "sob desvio" ou "Henkaten". (d_0054) (ATB F080302).
+
+4º Registrar qualquer parada de linha no diário de bordo e DownTime. (d_0226).
+
+5º Em caso de problema mecânico, elétrico e/ou qualquer quebra de máquina, abrir O.S para
+manutenção (d_0038) (d_0039) Após reparo:
+- Refazer a leitura da ficha de controle;
+- Liberar 1ª peça, garantindo qualidade da peça.
+
+6º Caso o produto esteja fora do especificado voltar ao 1º item.
+
+7º Anotar as irregularidades e não conformidades de processo e/ou produto no diário de bordo da
+FICHA DE CONTROLE com caneta COR
+VERMELHA, testes e inspeções fora do especificado, evem ser registrados com caneta "VERMELHA".
+
+8º Sempre que a linha ser reiniciada, a leitura dos parâmetros deverá ser feita novamente, registrando na ficha de controle, e a
+1ª peça deve ser liberada, garantindo a qualidade do produto.
+
+9º No caso de falhas no POKA YOKE, comunicar imediatamente a qualidade e o responsável da área de
+Processos para tomada de ação.
+-Segregar os intens produzidos como material suspeito "CARTÃO AMARELO".
+
+10º Caso algum componente, matéria prima (clipes, seallers, insertos, end caps etc) caia no chão, ou esteja espalhado de forma
+que não seja confiável sua utilização, deve-se:
+- Recolher os itens;
+- Segregar como material suspeito;
+- Identificar com cartão de material suspeito "CARTÃO AMARELO" para reinspeção.
+
+11º Em casos de Retrabalho
+-Não é permitido qualquer tipo de retrabalho sem autorização dentro das Células/Linhas;
+-Retrabalho requerem Instruções Padronizadas;
+- Peças retrabalhadas devem ser devolvidas para a Inspeção Final.
+
+12º Para casos em que a área possua uma estação de verificação:
+- Sempre que devolvido algum lote rejeitado, o lote deve ser novamente inspecionado 100% na célula.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1149" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="58959ee7-6b6f-4ea1-946e-587625bfdcb4"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="2eecb1fb-f416-4f5e-bd05-f05a0c89e838"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="823" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="627c2c5c-263e-4ab9-9e98-842a19bb547a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="761" y="26" width="1" height="577" isPrintWhenDetailOverflows="true" uuid="99b4469c-9ef0-4cc5-a833-7774bb29a4af"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="701" y="26" width="1" height="576" isPrintWhenDetailOverflows="true" uuid="8a941fd0-43d1-4cd4-bac7-10ab19838469"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="556" y="1" width="1" height="602" isPrintWhenDetailOverflows="true" uuid="0ba5281c-5495-420d-a2ce-efed76286166"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="658" y="27" width="1" height="575" isPrintWhenDetailOverflows="true" uuid="4f55d233-ea51-4c03-8a2b-d7e84908d729"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="450" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="31a8117c-5105-47e4-b99c-971470ad0f61"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="412" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="5384e497-3851-4ab2-a65f-68a02ca02f3c"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="312" y="27" width="1" height="576" isPrintWhenDetailOverflows="true" uuid="0baef357-6722-4773-b0ee-dbbb585b0752"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="211" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="3e9eec57-30cb-4069-8bac-2d4910dc8896"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="107" y="0" width="1" height="603" isPrintWhenDetailOverflows="true" uuid="2d8b37fc-d8d2-4836-a463-887a0fa53751"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="24" y="0" width="1" height="605" isPrintWhenDetailOverflows="true" uuid="231d1543-7e80-4046-9596-d8df2160227e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<subreport>
+				<reportElement x="0" y="-1" width="823" height="602" uuid="2b732df7-d5ae-45fb-a5d2-9f057467c3a9"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="linha">
+					<subreportParameterExpression><![CDATA[$P{linha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="critico">
+					<subreportParameterExpression><![CDATA[$P{critico}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "planocontrole_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="8" splitType="Prevent">
+			<staticText>
+				<reportElement x="549" y="1" width="41" height="7" uuid="7c14e4f0-14b7-4be6-961c-dec226200289"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[rev.03 Novembro/2017]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1125" y="0" width="23" height="8" uuid="2e17ce28-4399-4c5b-9199-f88f1be9e5ce"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[c1120]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="0" width="23" height="8" uuid="27efe59a-64a5-4a12-a8c3-ae049fb46511"/>
+				<textElement verticalAlignment="Middle">
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[d0023_2]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="-4" width="1150" height="1" isPrintWhenDetailOverflows="true" uuid="4c7dab48-6fe4-49a1-9530-1138c4950f4b"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="16">
+			<subreport>
+				<reportElement x="0" y="-1" width="1150" height="16" uuid="50d46b79-ee5e-45de-bfe8-e96ff866672d"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="linha">
+					<subreportParameterExpression><![CDATA[$P{linha}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "planocontrole_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

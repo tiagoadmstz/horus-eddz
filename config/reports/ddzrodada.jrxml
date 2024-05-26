@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipamentoperfil" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8fc951bc-ff3d-4a53-ba9d-f81123263803">
+	<property name="ireport.zoom" value="1.3310000000000086"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="graphicDataSet" uuid="7fae71e9-471f-4f13-9b41-a9b71f6876a1">
+		<parameter name="perfil" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="velocidade" class="java.lang.Float">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="date_time_input" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[select * from FICHACONTROLE.dbo.Obter_ddz_byIdControle($P{perfil}, $P{date_time_input});]]>
+		</queryString>
+		<field name="Metas" class="java.lang.Integer"/>
+		<field name="Indice" class="java.lang.Integer"/>
+		<field name="DataTimeInput" class="java.sql.Timestamp"/>
+		<field name="QtdScrap" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datetimeinput" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.*,
+(select dbo.Obter_Hora_Residual(ID_CONTROLE, INDICE, data_hora_input)) HORA_RESIDUAL
+from (
+select row_number() over(order by data_hora_input ASC) AS INDICE, * from (SELECT
+DDZ.ID,
+DDZ.ID_CONTROLE,
+data_hora_input,
+DATA_INPUT,
+HORA_INPUT,
+MATERIAL,
+QTD_SCRAP,
+QTD_SCRAP_REAIS,
+ACAO_TOMADA,
+DESC_PROBLEMA,
+DESC_CAUSA,
+DDZ.OBSERVACAO,
+QTD_SCRAP_KG,
+MAT_LINHA,
+DESC_MATERIAL,
+BPCS,
+PESO,
+(SELECT MAX(VELOCIDADE) FROM Velocidade_Perfil FULL OUTER JOIN Qry_Material ON ID_MATERIAL_ID = ID_MATERIAL WHERE MATERIAL = $P{perfil}) VELOCIDADE,
+(SELECT MAX(CUSTO) FROM Velocidade_Perfil FULL OUTER JOIN Qry_Material ON ID_MATERIAL_ID = ID_MATERIAL WHERE MATERIAL = $P{perfil}) CUSTO
+FROM Problemas
+INNER JOIN Causas ON Problemas.ID = Causas.ID_PROBLEMA_ID
+INNER JOIN vw_ddz_datahora DDZ ON Causas.ID = DDZ.ID_CAUSA_ID
+INNER JOIN Cad_Material ON DDZ.ID_M_MATERIAL = MATERIAL
+WHERE
+MATERIAL = $P{perfil}
+ AND ddz.id_controle
+IN (SELECT MAX(id_controle) FROM vw_ddz_datahora WHERE ID_M_MATERIAL = $P{perfil} and data_hora_input =$P{datetimeinput})
+) as tb) as a
+order by data_hora_input ASC]]>
+	</queryString>
+	<field name="INDICE" class="java.lang.Long"/>
+	<field name="ID" class="java.math.BigDecimal"/>
+	<field name="ID_CONTROLE" class="java.lang.Integer"/>
+	<field name="data_hora_input" class="java.sql.Timestamp"/>
+	<field name="DATA_INPUT" class="java.sql.Timestamp"/>
+	<field name="HORA_INPUT" class="java.sql.Timestamp"/>
+	<field name="MATERIAL" class="java.lang.Integer"/>
+	<field name="QTD_SCRAP" class="java.lang.Double"/>
+	<field name="QTD_SCRAP_REAIS" class="java.lang.Double"/>
+	<field name="ACAO_TOMADA" class="java.lang.String"/>
+	<field name="DESC_PROBLEMA" class="java.lang.String"/>
+	<field name="DESC_CAUSA" class="java.lang.String"/>
+	<field name="OBSERVACAO" class="java.lang.String"/>
+	<field name="QTD_SCRAP_KG" class="java.lang.Double"/>
+	<field name="MAT_LINHA" class="java.lang.String"/>
+	<field name="DESC_MATERIAL" class="java.lang.String"/>
+	<field name="BPCS" class="java.lang.String"/>
+	<field name="PESO" class="java.lang.Double"/>
+	<field name="VELOCIDADE" class="java.lang.Float"/>
+	<field name="CUSTO" class="java.lang.Double"/>
+	<field name="HORA_RESIDUAL" class="java.math.BigDecimal"/>
+	<variable name="variable1" class="java.lang.Integer" incrementType="Report">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_kg" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_KG}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_m" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_reais" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></variableExpression>
+	</variable>
+	<variable name="metros_bons" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{INDICE} > 1L ? $F{HORA_RESIDUAL} * $F{VELOCIDADE} : Float.valueOf("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="metros_acumulados" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP}]]></variableExpression>
+	</variable>
+	<variable name="metros_porcentagem" class="java.lang.Float">
+		<variableExpression><![CDATA[$V{metros_bons} > 0 ? ($V{metros_acumulados}/$V{metros_bons})*100 : 0]]></variableExpression>
+	</variable>
+	<variable name="metros_porcentagem_atual" class="java.lang.String">
+		<variableExpression><![CDATA[$V{metros_porcentagem} > 0 ? (String.format("%.2f", $V{metros_porcentagem}) + "%") : "-"]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="320" splitType="Stretch">
+			<staticText>
+				<reportElement x="291" y="1" width="220" height="38" uuid="6580581c-6de0-4702-9813-265e870cb7ec"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[DDZ - Extrusão]]></text>
+			</staticText>
+			<lineChart>
+				<chart isShowLegend="true">
+					<reportElement x="1" y="27" width="801" height="293" uuid="1dd4740f-af12-45d3-8f18-4713b2067a9a"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<chartTitle>
+						<font size="14" isBold="true"/>
+						<titleExpression><![CDATA[$F{MAT_LINHA} + " - " + $F{DESC_MATERIAL}]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="10"/>
+					</chartSubtitle>
+					<chartLegend position="Bottom">
+						<font size="10"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="graphicDataSet" uuid="57fe9feb-0d76-43ec-b676-219d0c3857e9">
+							<datasetParameter name="perfil">
+								<datasetParameterExpression><![CDATA[$P{perfil}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="velocidade">
+								<datasetParameterExpression><![CDATA[$F{VELOCIDADE}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="date_time_input">
+								<datasetParameterExpression><![CDATA[$P{datetimeinput}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Meta 7%"]]></seriesExpression>
+						<categoryExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date($F{DataTimeInput}.getTime()))]]></categoryExpression>
+						<valueExpression><![CDATA[$F{Metas}]]></valueExpression>
+						<labelExpression><![CDATA["Data"]]></labelExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["DDZ"]]></seriesExpression>
+						<categoryExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm dd/MM/yyyy").format(new Date($F{DataTimeInput}.getTime()))]]></categoryExpression>
+						<valueExpression><![CDATA[$F{QtdScrap}]]></valueExpression>
+						<labelExpression><![CDATA[new java.text.SimpleDateFormat("HH:mm").format(new Date($F{DataTimeInput}.getTime()))]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot isShowLines="true" isShowShapes="true">
+					<plot labelRotation="45.0">
+						<seriesColor seriesOrder="0" color="#3333FF"/>
+						<seriesColor seriesOrder="1" color="#FF0000"/>
+					</plot>
+					<categoryAxisFormat labelRotation="45.0">
+						<axisFormat>
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont>
+								<font size="10"/>
+							</labelFont>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<staticText>
+				<reportElement x="697" y="9" width="30" height="20" uuid="ad6d29b1-e9c6-48fa-87e6-48b84bdec278"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Perfil:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="727" y="9" width="79" height="20" uuid="524c8c33-74ff-4bf6-a957-e9535013de15"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MATERIAL}]]></textFieldExpression>
+			</textField>
+			<image isUsingCache="true">
+				<reportElement x="-3" y="1" width="150" height="32" uuid="e7bacfb5-e35d-43e0-9884-05b044d1f86d"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="28">
+			<staticText>
+				<reportElement x="0" y="14" width="55" height="14" uuid="d45796bf-ff99-41b8-9c23-cd2b532eb4eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="14" width="49" height="14" uuid="161b9a0e-bc92-4a3b-a3f2-11584ad64fee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="14" width="128" height="14" uuid="60e59c5e-aa55-4850-b7c8-cec287006751"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Problema]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="14" width="122" height="14" uuid="ed0b7ed0-4afe-47c4-a1e2-ea6cf2b08fd1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Causa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="14" width="60" height="14" uuid="ab9fe814-2c2b-46ce-9aed-a265e52e6aab"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Scrap (M)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="14" width="60" height="14" uuid="2bbd2599-e9af-4325-aff7-5a7f0a0b04bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Scrap (R$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="14" width="58" height="14" uuid="268166b9-b28c-492f-9f9c-741d00f9a2e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Scrap (Kg)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="533" y="14" width="58" height="14" uuid="dab83746-b479-40b7-af45-cbc7b989bf8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Metros total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="695" y="14" width="106" height="14" uuid="81c3719e-0a0b-4dd1-83aa-5a6565c380f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Observação]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="13" width="801" height="1" uuid="2c257528-f3a0-446d-af50-a8bc911953b2"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="27" width="801" height="1" uuid="dfa78828-e3b7-4d22-9440-2a46f1573826"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="14" width="1" height="14" uuid="01ac38c5-76eb-4bab-8fdb-2e867e423064"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="54" y="14" width="1" height="14" uuid="479f47e2-4b7c-4083-b839-186d3c852be0"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="104" y="14" width="1" height="14" uuid="979f8638-40b2-4e4e-a61d-2abc69815b2b"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="232" y="14" width="1" height="14" uuid="0a3594de-676c-4f0b-8b9e-c8808d506eeb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="354" y="14" width="1" height="14" uuid="7d727ef2-5f37-4a3c-850d-3c35816de5bd"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="414" y="14" width="1" height="14" uuid="05fd4193-0516-4e1b-91d0-630b050116fe"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="474" y="14" width="1" height="14" uuid="71b428d1-0aae-4136-abe0-1ee167344285"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="532" y="14" width="1" height="14" uuid="e1eeb212-6ef6-403f-a454-8a6d3c8d9ce8"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="694" y="14" width="1" height="14" uuid="0199a9d1-4f1d-4369-b9b6-5fff66f71687"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="801" y="14" width="1" height="14" uuid="ba930629-12c0-4cb0-97b5-ae716de06fc6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="591" y="14" width="58" height="14" uuid="73e46754-efc4-4e17-9bc4-3c033b5be2c3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Acumulado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="649" y="14" width="45" height="14" uuid="f196bc49-2a01-4028-abde-7b04ff3d6e7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="0" width="44" height="13" forecolor="#FF0000" uuid="47234663-88b7-46a1-be99-e6f798270e09"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Velocidade:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="0" width="59" height="13" forecolor="#FF3300" uuid="2145dc0b-5f0f-4fda-923a-72c17f169776"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Peso por metro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="0" width="66" height="13" forecolor="#FF3300" uuid="f4ffd155-9948-4d42-84c6-082d7fcbdba1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[% Atual de scrap:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="0" width="34" height="13" uuid="996640a5-5ebf-4566-991b-cb58bb09c594"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VELOCIDADE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="147" y="0" width="39" height="13" uuid="7f4427f1-9755-4b14-ae16-b233e4fb9304"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PESO}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="">
+				<reportElement x="257" y="0" width="34" height="13" uuid="f228831d-16b6-42e8-8a8b-e264572eda1c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{metros_porcentagem_atual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="14" backcolor="#F5F4F4" uuid="f39b5e50-ab59-428a-a4c6-2a7fb59d421c">
+					<printWhenExpression><![CDATA[new Boolean (($V{COLUMN_COUNT}.intValue()%2)==0)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="HH:mm">
+				<reportElement x="55" y="0" width="49" height="14" uuid="db3fb0fd-af6c-4b40-8ccb-97c0240b47af"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{HORA_INPUT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="105" y="0" width="128" height="14" uuid="72bca6a6-6fa1-4324-94a3-7e18cf7a31b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_PROBLEMA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="233" y="0" width="122" height="14" uuid="b124543c-ae00-4ba2-9092-f89d17e83aee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_CAUSA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="355" y="0" width="60" height="14" uuid="a0ff4517-6c33-4803-9755-7124c68b4ed8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QTD_SCRAP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement x="415" y="0" width="60" height="14" uuid="01aadf00-712f-41cc-aa96-ab5054e85be3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="55" height="14" uuid="576de008-3f1b-41d0-9be4-59f1ba03025b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATA_INPUT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.0">
+				<reportElement x="475" y="0" width="58" height="14" uuid="ba88522a-f3ae-4de0-a71e-877f3dc38619"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QTD_SCRAP_KG}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="695" y="0" width="106" height="14" uuid="63797bd7-d80a-4ccf-9a5e-3a1bfcbc0d36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBSERVACAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="533" y="0" width="58" height="14" uuid="08ab466c-74f7-4479-9bf0-07f59d5463ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{metros_bons}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="591" y="0" width="58" height="14" uuid="1695a3fa-61e6-43be-8e76-e181fd43c264"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{metros_acumulados}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="649" y="0" width="45" height="14" uuid="2d40c49a-2aee-44d8-9596-d0e1fecb1dd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{metros_porcentagem_atual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="84">
+			<rectangle>
+				<reportElement x="0" y="8" width="800" height="76" forecolor="#F1B013" backcolor="#F1B013" uuid="2d7caa0f-4b29-414c-82bf-b6c53751b298"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#000000"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="12" width="115" height="20" uuid="a22ed157-669e-4837-b05b-363669731b40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Scrap total (KG):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="37" width="105" height="20" uuid="387752f7-9059-47b6-bf74-01392fbe70a6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Scrap total (M):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="62" width="115" height="20" uuid="d723f145-7093-4244-b260-a881f336b7dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Scrap total (R$):]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="#,##0 Kg">
+				<reportElement x="119" y="12" width="132" height="20" forecolor="#FFFFFF" uuid="2589c53c-769e-4391-995d-e3f48d9d82c4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{scrap_total_kg}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="#,##0 m">
+				<reportElement x="109" y="37" width="132" height="20" forecolor="#FFFFFF" uuid="1786dcd0-0027-4b34-b557-a3e9819d80a9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{scrap_total_m}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="R$ #,##0.00">
+				<reportElement x="118" y="62" width="132" height="20" forecolor="#FFFFFF" uuid="19b2d107-5896-468b-bdc6-837a1d0ceb95"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{scrap_total_reais}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="496" y="17" width="178" height="20" uuid="e7980fec-12a5-4acd-bbb8-9edf8be1209d"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Metros bons produzidos:]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="#,##0.0">
+				<reportElement x="674" y="17" width="52" height="20" forecolor="#FFFFFF" uuid="f81ba8f2-1388-4a50-a04e-5c2695cac79b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{metros_bons} - $V{scrap_total_m}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="724" y="18" width="74" height="20" forecolor="#FFFFFF" uuid="4243d1be-01c0-4f89-b209-21f9ea2b793d"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[m]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="¤ #,##0.00">
+				<reportElement x="674" y="57" width="79" height="20" forecolor="#FFFFFF" uuid="94c61c0a-2140-4cf0-b6d4-779eb8246dbd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{metros_bons} - $V{scrap_total_m}) * $F{CUSTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="474" y="57" width="200" height="20" uuid="9d7ff51e-aa08-4018-b61f-9e06b2d4d4c5"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Metros bons produzidos R$:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

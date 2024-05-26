@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ddzlancamento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95d463c0-ef51-4bfe-ae42-2b8cb0e9bd15">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="flag" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="obs" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    LINHA,
+    ID_M_MATERIAL,
+    CASE mes
+        WHEN 1 THEN 'Janeiro'
+        WHEN 2 THEN 'Fevereiro'
+        WHEN 3 THEN 'Março'
+        WHEN 4 THEN 'Abril'
+        WHEN 5 THEN 'Maio'
+        WHEN 6 THEN 'Junho'
+        WHEN 7 THEN 'Julho'
+        WHEN 8 THEN 'Agosto'
+        WHEN 9 THEN 'Setembro'
+        WHEN 10 THEN 'Outubro'
+        WHEN 11 THEN 'Novembro'
+        WHEN 12 THEN 'Dezembro'
+    END AS nome_mes,
+    SUM(qtd_scrap_reais) AS total_qtd_scrap_reais,
+    SUM(m_produzidos) as total_m_produzido,
+    SUM(m_reais) AS total_m_reais,
+    mes
+FROM (
+    SELECT
+        ID_CONTROLE,
+        LINHA,
+        ID_M_MATERIAL,
+        YEAR(DataHora) AS ano,
+        MONTH(DataHora) AS mes,
+        DATEDIFF(minute, MIN(DATAHORA), MAX(DATAHORA)) AS tempo_producao,
+        SUM(QTD_SCRAP_REAIS) AS qtd_scrap_reais,
+        (VELOCIDADE * DATEDIFF(minute, MIN(DATAHORA), MAX(DATAHORA))) AS m_produzidos,
+        (VELOCIDADE * DATEDIFF(minute, MIN(DATAHORA), MAX(DATAHORA))) * CUSTO as m_reais,
+        SUM(qtd_scrap_reais) / NULLIF(((VELOCIDADE * DATEDIFF(minute, MIN(DATAHORA), MAX(DATAHORA))) + SUM(qtd_scrap_reais)), 0) * 100 as porcent_scrap
+    FROM
+        dbo.vw_dashboard
+    WHERE LINHA = $P{linha} AND YEAR(DataHora) = YEAR(GETDATE()) and DATAHORA BETWEEN $P{dataini} AND $P{datafim}
+    GROUP BY ID_CONTROLE, YEAR(DataHora), MONTH(DataHora), VELOCIDADE, CUSTO,ID_M_MATERIAL, LINHA
+) AS subconsulta
+GROUP BY mes, ano, ID_M_MATERIAL, LINHA
+ORDER BY mes
+]]>
+	</queryString>
+	<field name="LINHA" class="java.lang.String"/>
+	<field name="ID_M_MATERIAL" class="java.lang.Integer"/>
+	<field name="nome_mes" class="java.lang.String"/>
+	<field name="total_qtd_scrap_reais" class="java.lang.Double"/>
+	<field name="total_m_produzido" class="java.lang.Double"/>
+	<field name="total_m_reais" class="java.lang.Double"/>
+	<field name="mes" class="java.lang.Integer"/>
+	<variable name="Total_m" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_m_produzido}]]></variableExpression>
+	</variable>
+	<variable name="Total_m_reais" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_m_reais}]]></variableExpression>
+	</variable>
+	<variable name="Total_m_group" class="java.math.BigDecimal" resetType="Group" resetGroup="MES" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_m_produzido}]]></variableExpression>
+	</variable>
+	<variable name="Total_m_reais_group" class="java.math.BigDecimal" resetType="Group" resetGroup="MES" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_m_reais}]]></variableExpression>
+	</variable>
+	<group name="MES">
+		<groupExpression><![CDATA[$F{mes}]]></groupExpression>
+		<groupHeader>
+			<band height="52">
+				<textField>
+					<reportElement x="2" y="1" width="551" height="20" forecolor="#FF3333" uuid="cdb3c12b-d033-4289-97cd-b6d557873b8f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_mes}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="55" y="32" width="100" height="20" uuid="1520a686-1f6d-44b4-b611-37bc38bbc523"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Perfil]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="227" y="32" width="100" height="20" uuid="72222260-d10f-410b-8b93-76a61d9496ee"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Metros produzidos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="400" y="32" width="100" height="20" uuid="adbbcd36-7c34-4cf0-9b6a-ad852eac3f9d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Valor em R$]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement x="344" y="0" width="56" height="20" uuid="9362f9e0-d3d1-4f94-aec9-c91062cd4d63"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[R$:]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="400" y="0" width="100" height="20" forecolor="#FF0000" uuid="5a6e84f1-bd0c-4bcf-9aa1-01b487af63e4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="false" isStrikeThrough="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_m_reais_group}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="19" width="555" height="1" uuid="bf7c3a3b-0b64-417e-b644-0a21b17f8e86"/>
+				</line>
+				<staticText>
+					<reportElement x="168" y="0" width="59" height="20" uuid="b7b0a88f-5661-46d4-9780-3d739a95028f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Metros:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="227" y="0" width="100" height="20" forecolor="#FF0000" uuid="fe5feece-da4d-4804-831a-72985d2fddf0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Total_m_group}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="79">
+			<image isUsingCache="true">
+				<reportElement x="55" y="0" width="176" height="40" uuid="812fd85c-3a77-4c54-8efa-bcdaa3f88de5"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="473" y="20" width="80" height="20" uuid="d5ad9f1e-a624-4795-af83-33ea0f6bd7fb"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datafim}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="483" y="0" width="70" height="20" uuid="7a3c6bf7-cc0c-487c-8177-aa7eea77a5d3"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataini}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="427" y="0" width="56" height="20" uuid="de054a3a-b06c-4b3a-a56f-1d94884eac8a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data início:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="20" width="46" height="20" uuid="3b8d9938-8418-4ba2-a3ec-8c93e41bd836"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data fim:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="368" height="35" uuid="4df5d7d5-46bf-4f30-a69b-5b85cf91b682"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Metros produzidos - Linha:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="288" y="40" width="265" height="35" uuid="3e3d1b8b-016a-46f1-9c2d-387b01d883b9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{LINHA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="55" y="0" width="100" height="20" uuid="2aed6d8c-67f3-4195-99c2-c64ded9fcb95"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_M_MATERIAL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="227" y="0" width="100" height="20" uuid="573e6e54-cb86-422d-af59-554814517f4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_m_produzido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="400" y="0" width="100" height="20" uuid="46af3837-e7d3-407e-8a7d-56de8f7356e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_m_reais}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="24">
+			<textField pattern="#,##0.00">
+				<reportElement x="111" y="4" width="124" height="20" forecolor="#FF0000" uuid="a0b53124-b584-408c-b90a-b847c7731b44"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_m}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="411" y="4" width="142" height="20" forecolor="#FF0000" uuid="74a395df-6d9f-4c91-8d33-0a43a15e6b48"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total_m_reais}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="344" y="4" width="67" height="20" uuid="03016906-8db5-4cd7-bb44-c7385426107d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total R$:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="4" width="109" height="20" uuid="1724fa9a-b728-4f0f-a7b9-30e33ce9f75e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total metros:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

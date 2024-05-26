@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemequipamento" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7fc00c2e-a7d3-49a8-93ce-5b2f1ae2dea8">
+	<property name="ireport.zoom" value="1.8627639691774651"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT
+     Problemas."ID" AS Problemas_ID,
+     Problemas."DESC_PROBLEMA" AS DESC_PROBLEMA,
+     Causas."ID" AS Causas_ID,
+     Causas."DESC_CAUSA" AS DESC_CAUSA,
+     Causas."ID_PROBLEMA_ID" AS ID_PROBLEMA_ID
+FROM
+     "dbo"."Problemas" Problemas INNER JOIN "dbo"."Causas" Causas ON Problemas."ID" = Causas."ID_PROBLEMA_ID"
+
+]]>
+	</queryString>
+	<field name="Problemas_ID" class="java.math.BigDecimal"/>
+	<field name="DESC_PROBLEMA" class="java.lang.String"/>
+	<field name="Causas_ID" class="java.math.BigDecimal"/>
+	<field name="DESC_CAUSA" class="java.lang.String"/>
+	<field name="ID_PROBLEMA_ID" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="53" width="554" height="26" uuid="c6578f90-b765-4878-a345-e7817c428d69"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento]]></text>
+			</staticText>
+			<image isUsingCache="true">
+				<reportElement x="405" y="0" width="150" height="32" uuid="6d36f545-7580-494a-9b72-c80667014c4e"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="220" height="38" uuid="d4d80eae-bea0-45c3-8582-7660bbadd2c6"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Listagem - Extrusão]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<staticText>
+				<reportElement x="1" y="5" width="100" height="20" uuid="93ddf851-22e4-4763-adc5-39fd24857a24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Problemas_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="5" width="179" height="20" uuid="0c59cfeb-999f-40f2-9faf-5928bda92e72"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DESC_PROBLEMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="357" y="5" width="127" height="20" uuid="055e99ac-abb5-449f-9e88-feb9ed4e190e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[DESC_CAUSA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="484" y="5" width="70" height="20" uuid="c44c4ab0-c816-4de7-ab14-02109d724188"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ID_PROBLEMA_ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="5" width="62" height="20" uuid="9d5e20b1-0c3d-4465-a83f-a838405d8e4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Causas_ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="1" y="0" width="100" height="20" uuid="1b6d30d6-710d-4113-9ad5-c9be015edc20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Problemas_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="0" width="179" height="20" uuid="5408a06c-5069-4d1d-96a6-9ccd4aa75209"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_PROBLEMA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="357" y="0" width="127" height="20" uuid="5939fd0a-d8b0-452a-a60b-c73d7031e52a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_CAUSA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="484" y="0" width="70" height="20" uuid="d7973062-598f-4d3d-a9d4-c84cfdf5c53b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID_PROBLEMA_ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="0" width="62" height="20" uuid="da3b1680-ced3-4358-942b-d99f76e39365"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Causas_ID}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="539" y="0" width="15" height="20" uuid="5d180673-584a-41e1-b1bc-6e5211b5310e"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="1" y="0" width="117" height="20" uuid="eb55d644-ac74-4aa9-84ee-a19c89f37558"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="471" y="0" width="68" height="20" uuid="fe3436b8-86ea-49c2-bee4-07b9117d1f4c"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="5bb8dcf6-2665-4a73-a63c-39f01d5ac9d4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

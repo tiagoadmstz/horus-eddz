@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VelocidadePerfil" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1ff87ea0-d600-411e-b724-f624036d311f">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[WITH CTE AS (
+    SELECT CAST(DATA_HORA_INPUT AS DATE) AS DATA,
+           SUM(DATEDIFF(MINUTE, DATA_HORA_INPUT, PROXIMA_DATA_HORA_INPUT)) AS MINUTOS_RODADOS,
+           CASE
+               WHEN DATEPART(dw, CAST(DATA_HORA_INPUT AS DATE)) = 1 THEN 'Domingo'
+               WHEN DATEPART(dw, CAST(DATA_HORA_INPUT AS DATE)) = 7 THEN 'Sábado'
+               ELSE NULL
+           END AS DIA_SEMANA
+    FROM (
+        SELECT DATA_HORA_INPUT,
+               LEAD(DATA_HORA_INPUT) OVER (PARTITION BY ID_CONTROLE ORDER BY DATA_HORA_INPUT) AS PROXIMA_DATA_HORA_INPUT
+        FROM dbo.DDZ_Controle
+        INNER JOIN dbo.VW_DDZ_DATAHORA ON dbo.DDZ_Controle.ID = dbo.VW_DDZ_DATAHORA.ID_CONTROLE
+        WHERE dbo.DDZ_Controle.DATA_BASE BETWEEN '2022-06-01' AND '2023-05-30'
+              AND dbo.DDZ_Controle.LINHA = $P{linha}
+              AND DATEPART(dw, dbo.DDZ_Controle.DATA_BASE) IN (1, 7)
+              AND FLAG <> 'L'
+    ) AS Subquery
+    GROUP BY CAST(DATA_HORA_INPUT AS DATE)
+    HAVING SUM(DATEDIFF(MINUTE, DATA_HORA_INPUT, PROXIMA_DATA_HORA_INPUT)) IS NOT NULL
+)
+SELECT DATA,
+       SUM(MINUTOS_RODADOS) AS TOTAL_MINUTOS_RODADOS,
+       DIA_SEMANA
+FROM CTE
+GROUP BY DATA, DIA_SEMANA
+HAVING DIA_SEMANA IS NOT NULL
+ORDER BY DATA]]>
+	</queryString>
+	<field name="DATA" class="java.sql.Date"/>
+	<field name="TOTAL_MINUTOS_RODADOS" class="java.lang.Integer"/>
+	<field name="DIA_SEMANA" class="java.lang.String"/>
+	<variable name="DATA_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{DATA}]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_MINUTOS_RODADOS_1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOTAL_MINUTOS_RODADOS}]]></variableExpression>
+	</variable>
+	<group name="linha" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[]]></groupExpression>
+		<groupHeader>
+			<band height="57">
+				<textField>
+					<reportElement x="61" y="1" width="111" height="38" uuid="9c19bde2-3033-4ffe-8824-6161ef688fe2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{linha}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="39" width="117" height="18" uuid="3f16c2f4-2570-4ae0-9c3b-f5a457863ba3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="117" y="39" width="145" height="18" uuid="acb07ecb-2474-4a5e-bd1e-968a40d284df"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dia da semana]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="262" y="39" width="152" height="18" uuid="2e868fe2-6718-498b-bdd8-ab8fd8324e2f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Minutos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="415" y="39" width="139" height="18" uuid="ba72d576-c924-43ca-a573-f3f207e7bcc2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Horas]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="0" width="1" height="57" isRemoveLineWhenBlank="true" uuid="b18e127e-6451-4f9b-be7b-cd2ce4960bf8">
+						<printWhenExpression><![CDATA[]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="1" y="39" width="554" height="1" isRemoveLineWhenBlank="true" uuid="146a05f5-4f39-4346-8ea2-2d4b2bee8ede">
+						<printWhenExpression><![CDATA[]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="1" y="0" width="554" height="1" isRemoveLineWhenBlank="true" uuid="c4e3c0a2-4c4d-48cc-8584-1bad70d4dc60">
+						<printWhenExpression><![CDATA[]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement x="0" y="1" width="61" height="39" uuid="8a28d6e5-a655-4b9f-bf92-26ff72e2fbb9"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Linha:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="1" y="56" width="554" height="1" uuid="f6ab48b0-44cc-4208-a227-b6c8b6c3cd1d"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="42" width="554" height="26" uuid="28b3d5b3-6bf5-4114-bfb8-9ffe9a79e925"/>
+				<textElement textAlignment="Center">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finais de semana produzido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="0" width="220" height="38" uuid="db807817-cc8a-4572-9b0b-e30345ec8cc6"/>
+				<textElement>
+					<font size="22"/>
+				</textElement>
+				<text><![CDATA[Listagem - Extrusão]]></text>
+			</staticText>
+			<image isUsingCache="true">
+				<reportElement x="404" y="0" width="150" height="32" uuid="420063a3-80f1-4071-a537-c57e78638839"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="22" isRemoveLineWhenBlank="true" backcolor="#CCCCCC" uuid="6358a379-541a-4d81-aad5-ea351df14314">
+					<printWhenExpression><![CDATA[new Boolean (($V{COLUMN_COUNT}.intValue()%2)==0)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="116" height="21" uuid="4ae8e4f2-8594-4a2d-87c3-602b810a728f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="414" y="0" width="139" height="20" uuid="b567cf17-a3fd-4900-9273-fc05c13ff7ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_MINUTOS_RODADOS} / 60]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="0" width="146" height="22" uuid="8de76b85-843b-479f-82f3-2559ee8b871d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DIA_SEMANA}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="1" height="22" uuid="855b4566-dfee-4b06-aa43-438d473c682f"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="116" y="0" width="1" height="22" uuid="b9c5f9e6-032f-4016-9007-3e40a9e39847"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="261" y="0" width="1" height="22" uuid="31886641-e8d4-498c-8d1c-6a66c388d634"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="414" y="0" width="1" height="22" uuid="a8aff3fa-0841-4804-bc80-d69859b95e51"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="554" height="1" uuid="6723336e-690d-4c0c-a298-60bf46b78496"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="554" y="0" width="1" height="22" uuid="22dfc6d3-07ec-4d2d-b09d-323b245e7476"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="21" width="555" height="1" uuid="e0a29f97-2611-4685-ab18-8914ca74e2ea"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="262" y="0" width="152" height="22" uuid="c4928349-7fa6-4d16-a270-298e506432b2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TOTAL_MINUTOS_RODADOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="55">
+			<textField>
+				<reportElement x="470" y="32" width="68" height="20" uuid="d98a5d29-3cc1-4d5d-95ba-63245ec26334"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="538" y="32" width="15" height="20" uuid="0c4add76-81a5-4435-877c-0599288d73aa"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="32" width="117" height="20" uuid="99bd59fa-e1d1-498c-be40-3b50d08b2128"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="53" width="555" height="1" uuid="0f1121ff-bf8b-4712-8480-975163150e5b"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField evaluationTime="Report">
+				<reportElement x="85" y="4" width="100" height="20" forecolor="#FF3300" uuid="395f8687-4b39-4623-9eff-7fb0eff77071"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DATA_1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="#,##0.00">
+				<reportElement x="285" y="4" width="89" height="20" forecolor="#FF0000" uuid="6de1dfbe-e1ef-41ff-9c8f-9ceb815115f0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_MINUTOS_RODADOS_1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="#,##0.00">
+				<reportElement x="483" y="4" width="83" height="20" forecolor="#FF0000" uuid="16625cb5-ac0d-4d46-8d91-52d08a10544b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TOTAL_MINUTOS_RODADOS_1} / 60]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="4" width="84" height="20" forecolor="#FF3300" uuid="5d6b942d-9d56-420e-870b-46f55e1fabaa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Total de dias:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="4" width="100" height="20" forecolor="#FF3300" uuid="659c3810-e244-4b2b-b252-0a69a464646e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Total de minutos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="389" y="4" width="93" height="20" forecolor="#FF3300" uuid="f0594e55-0166-48b6-a51c-070ea0d1a3c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Total de horas:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

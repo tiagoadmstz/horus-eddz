@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="equipamentoperfil" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8fc951bc-ff3d-4a53-ba9d-f81123263803">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="New Dataset 1" uuid="fbcaa901-2193-4460-b21a-8eeb89d3d394">
+		<parameter name="dataini" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="datafim" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="linha" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT  TOP 5 ID, CAST(MATERIAL AS varchar) AS Perfil, FORMAT(SCRAP_TOTAL, 'C', 'pt-br') AS 'Formato Moeda' , DATA_BASE, MATERIAL, SCRAP_TOTAL, LINHA
+	          FROM    dbo.DDZ_Controle
+                    WHERE (CASE 'C'
+                    WHEN 'D' THEN DATEPART(d, DATA_BASE)
+	            WHEN 'M' THEN DATEPART(m, DATA_BASE)
+	            WHEN 'A' THEN DATEPART(yyyy, DATA_BASE)
+	            WHEN 'C' THEN DATA_BASE
+	            END) BETWEEN CONVERT(DATE, $P{dataini}, 103) AND CONVERT(DATE, $P{datafim}, 103) and LINHA = $P{linha}
+ORDER BY SCRAP_TOTAL DESC]]>
+		</queryString>
+		<field name="ID" class="java.lang.Integer"/>
+		<field name="Perfil" class="java.lang.String"/>
+		<field name="Formato Moeda" class="java.lang.String"/>
+		<field name="DATA_BASE" class="java.sql.Timestamp"/>
+		<field name="MATERIAL" class="java.lang.Integer"/>
+		<field name="SCRAP_TOTAL" class="java.lang.Double"/>
+		<field name="LINHA" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="New Dataset 2" uuid="d7bbb395-2cd4-4e4d-ba01-ad3d6fdd762b">
+		<parameter name="dataini" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="datafim" class="java.util.Date">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="linha" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select top 5 row_number() over(order by data_hora_input ASC) AS INDICE, * from (SELECT
+data_hora_input,
+MATERIAL,
+FORMAT(QTD_SCRAP_REAIS, 'C', 'pt-br') AS 'Formato Moeda',
+QTD_SCRAP_REAIS,
+DESC_PROBLEMA,
+(SELECT MAX(VELOCIDADE) FROM Velocidade_Perfil FULL OUTER JOIN Qry_Material ON ID_MATERIAL_ID = ID_MATERIAL) VELOCIDADE
+FROM Problemas
+INNER JOIN Causas ON Problemas.ID = Causas.ID_PROBLEMA_ID
+INNER JOIN vw_ddz_datahora DDZ ON Causas.ID = DDZ.ID_CAUSA_ID
+INNER JOIN Cad_Material ON DDZ.ID_M_MATERIAL = MATERIAL
+WHERE
+DESC_PROBLEMA <> 'Não houve problemas (SCRAP 0)'
+and
+MAT_LINHA = $P{linha}
+and
+ddz.id_controle in (SELECT  TOP 5 ID
+		    FROM    dbo.DDZ_Controle
+                    WHERE (CASE 'C'
+                    WHEN 'D' THEN DATEPART(d, DATA_BASE)
+	            WHEN 'M' THEN DATEPART(m, DATA_BASE)
+	            WHEN 'A' THEN DATEPART(yyyy, DATA_BASE)
+	            WHEN 'C' THEN DATA_BASE
+	            END) BETWEEN CONVERT(DATE, $P{dataini}, 103) AND CONVERT(DATE, $P{datafim}, 103)
+and LINHA = $P{linha}
+ORDER BY SCRAP_TOTAL DESC)
+) as tb order by QTD_SCRAP_REAIS DESC]]>
+		</queryString>
+		<field name="INDICE" class="java.lang.Long"/>
+		<field name="data_hora_input" class="java.sql.Timestamp"/>
+		<field name="MATERIAL" class="java.lang.Integer"/>
+		<field name="Formato Moeda" class="java.lang.String"/>
+		<field name="QTD_SCRAP_REAIS" class="java.lang.Double"/>
+		<field name="DESC_PROBLEMA" class="java.lang.String"/>
+		<field name="VELOCIDADE" class="java.lang.Float"/>
+		<group name="group1" isStartNewPage="true">
+			<groupExpression><![CDATA[$F{DESC_PROBLEMA}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="top" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select row_number() over(order by data_hora_input ASC) AS INDICE, * from (SELECT
+DDZ.ID,
+ddz.id_controle,
+data_hora_input,
+DATA_INPUT,
+HORA_INPUT,
+MTR.MATERIAL,
+QTD_SCRAP,
+QTD_SCRAP_REAIS,
+DESC_PROBLEMA,
+DESC_CAUSA,
+DDZ.OBSERVACAO,
+QTD_SCRAP_KG,
+MAT_LINHA,
+DESC_MATERIAL,
+FORMAT(QTD_SCRAP_REAIS, 'C', 'pt-br') AS 'Formato Moeda',
+BPCS,
+DDZ.PESO,
+(SELECT MAX(VELOCIDADE) FROM Velocidade_Perfil FULL OUTER JOIN Qry_Material ON ID_MATERIAL_ID = ID_MATERIAL) VELOCIDADE,
+CTL.SCRAP_TOTAL
+FROM Problemas
+INNER JOIN Causas ON Problemas.ID = Causas.ID_PROBLEMA_ID
+INNER JOIN vw_ddz_datahora DDZ ON Causas.ID = DDZ.ID_CAUSA_ID
+INNER JOIN Cad_Material MTR ON DDZ.ID_M_MATERIAL = MTR.MATERIAL
+INNER JOIN dbo.DDZ_Controle CTL ON ddz.id_controle = CTL.ID
+WHERE
+DESC_PROBLEMA <> 'Não houve problemas (SCRAP 0)' and
+MAT_LINHA = $P{linha}
+and
+ddz.id_controle in (SELECT  TOP 5 ID
+		    FROM    dbo.DDZ_Controle
+                    WHERE (CASE 'C'
+                    WHEN 'D' THEN DATEPART(d, DATA_BASE)
+	            WHEN 'M' THEN DATEPART(m, DATA_BASE)
+	            WHEN 'A' THEN DATEPART(yyyy, DATA_BASE)
+	            WHEN 'C' THEN DATA_BASE
+	            END) BETWEEN CONVERT(DATE, $P{dataini}, 111) AND CONVERT(DATE, $P{datafim}, 111) and LINHA = $P{linha}
+ORDER BY SCRAP_TOTAL DESC)
+) as tb
+ORDER BY SCRAP_TOTAL DESC]]>
+	</queryString>
+	<field name="INDICE" class="java.lang.Long"/>
+	<field name="ID" class="java.math.BigDecimal"/>
+	<field name="id_controle" class="java.lang.Integer"/>
+	<field name="data_hora_input" class="java.sql.Timestamp"/>
+	<field name="DATA_INPUT" class="java.sql.Timestamp"/>
+	<field name="HORA_INPUT" class="java.sql.Timestamp"/>
+	<field name="MATERIAL" class="java.lang.Integer"/>
+	<field name="QTD_SCRAP" class="java.lang.Double"/>
+	<field name="QTD_SCRAP_REAIS" class="java.lang.Double"/>
+	<field name="DESC_PROBLEMA" class="java.lang.String"/>
+	<field name="DESC_CAUSA" class="java.lang.String"/>
+	<field name="OBSERVACAO" class="java.lang.String"/>
+	<field name="QTD_SCRAP_KG" class="java.lang.Double"/>
+	<field name="MAT_LINHA" class="java.lang.String"/>
+	<field name="DESC_MATERIAL" class="java.lang.String"/>
+	<field name="Formato Moeda" class="java.lang.String"/>
+	<field name="BPCS" class="java.lang.String"/>
+	<field name="PESO" class="java.lang.Double"/>
+	<field name="VELOCIDADE" class="java.lang.Float"/>
+	<field name="SCRAP_TOTAL" class="java.lang.Double"/>
+	<variable name="variable1" class="java.lang.Integer" incrementType="Report">
+		<variableExpression><![CDATA[$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_kg" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_KG}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_m" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP}]]></variableExpression>
+	</variable>
+	<variable name="scrap_total_reais" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></variableExpression>
+	</variable>
+	<variable name="metros_bons" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{INDICE} > 1L ? 60*$F{VELOCIDADE} : Float.valueOf("0")]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="metros_acumulados" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP}]]></variableExpression>
+	</variable>
+	<variable name="metros_porcentagem" class="java.lang.Float">
+		<variableExpression><![CDATA[$V{metros_bons} > 0 ? ($V{metros_acumulados}/$V{metros_bons})*100 : 0]]></variableExpression>
+	</variable>
+	<variable name="metros_porcentagem_atual" class="java.lang.String">
+		<variableExpression><![CDATA[$V{metros_porcentagem} > 0 ? (String.format("%.1f", $V{metros_porcentagem}) + "%") : "-"]]></variableExpression>
+	</variable>
+	<variable name="SCRAP_REAIS" class="java.lang.Float" resetType="None" incrementType="Group" incrementGroup="ID_CONTROLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></variableExpression>
+	</variable>
+	<variable name="SCRAP_TOTAL_REAIS" class="java.lang.Float" resetType="Group" resetGroup="ID_CONTROLE" calculation="Sum">
+		<variableExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></variableExpression>
+	</variable>
+	<group name="ID_CONTROLE" isReprintHeaderOnEachPage="true" minHeightToStartNewPage="100">
+		<groupExpression><![CDATA[$F{id_controle}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<textField>
+					<reportElement x="0" y="1" width="100" height="20" uuid="714068df-0885-4f7c-b12c-d99eda1ca8e1"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{MATERIAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="336" y="1" width="292" height="20" uuid="9eab9485-13bd-440e-81d4-11715a2d5b4c"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Observações]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="635" y="0" width="167" height="20" uuid="e4dd861e-f1b4-430e-884c-c3fc54779d87"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Scrap]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="743" y="1" width="57" height="20" forecolor="#FF0033" uuid="3439aba0-bf0d-4f37-aaa2-d99ba3b97a9e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SCRAP_TOTAL_REAIS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="635" y="1" width="108" height="20" uuid="75a79c29-b762-4493-b52c-3374f45c33f2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<text><![CDATA[Scrap total:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="20" width="802" height="1" uuid="1f7f12cf-99ae-4db2-90b8-7684e368f618"/>
+				</line>
+				<line>
+					<reportElement x="333" y="-130" width="1" height="151" uuid="4e0cf2b3-56a9-468e-a64f-5be630ee31a5"/>
+				</line>
+				<line>
+					<reportElement x="632" y="-97" width="1" height="117" uuid="bb6432f8-9c2a-4bed-9447-e43ff9998f5a"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Material" keepTogether="true">
+		<groupExpression><![CDATA[$F{INDICE}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="514">
+			<stackedBar3DChart>
+				<chart>
+					<reportElement x="2" y="59" width="800" height="219" uuid="e6c11289-fa61-4344-81b0-f49465605777"/>
+					<chartTitle position="Top"/>
+					<chartSubtitle/>
+					<chartLegend position="Top"/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="New Dataset 1" uuid="9b825f63-a962-44f4-a8f0-178d705c3a7d">
+							<datasetParameter name="dataini">
+								<datasetParameterExpression><![CDATA[$P{dataini}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="datafim">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="linha">
+								<datasetParameterExpression><![CDATA[$P{linha}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{MATERIAL}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{Formato Moeda}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{SCRAP_TOTAL}]]></valueExpression>
+						<labelExpression><![CDATA[String.valueOf($V{REPORT_COUNT}) +"º"]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot isShowLabels="true">
+					<plot labelRotation="0.0"/>
+					<itemLabel/>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+			<image isUsingCache="true">
+				<reportElement x="0" y="0" width="150" height="32" uuid="e7bacfb5-e35d-43e0-9884-05b044d1f86d"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="307" y="0" width="101" height="32" uuid="6580581c-6de0-4702-9813-265e870cb7ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Top 5 DDZ - ]]></text>
+			</staticText>
+			<pieChart>
+				<chart>
+					<reportElement x="2" y="279" width="800" height="235" uuid="65b694df-3756-46ae-8f06-522a5743a3bb"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="New Dataset 2" uuid="4196441a-a151-4c2e-97ff-8b9cc05b1cbd">
+							<datasetParameter name="dataini">
+								<datasetParameterExpression><![CDATA[$P{dataini}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="datafim">
+								<datasetParameterExpression><![CDATA[$P{datafim}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="linha">
+								<datasetParameterExpression><![CDATA[$P{linha}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{Formato Moeda}]]></keyExpression>
+					<valueExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></valueExpression>
+					<labelExpression><![CDATA[$F{DESC_PROBLEMA} + " - " + String.valueOf($F{MATERIAL})]]></labelExpression>
+				</pieDataset>
+				<piePlot isShowLabels="false" isCircular="true" labelFormat="">
+					<plot labelRotation="90.0"/>
+					<itemLabel>
+						<font size="8"/>
+					</itemLabel>
+				</piePlot>
+			</pieChart>
+			<line>
+				<reportElement x="0" y="278" width="802" height="1" uuid="2f810062-3a72-4783-9bd6-ba2439468794"/>
+			</line>
+			<staticText>
+				<reportElement x="676" y="0" width="56" height="20" uuid="95c19d16-9daa-49f9-9b97-0c8db3d77fcd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data início:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="676" y="20" width="46" height="20" uuid="9a0964ba-722d-419f-9aeb-2be99f8f6b36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Data fim:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="732" y="0" width="70" height="20" uuid="b5554070-bfdc-4cad-add1-e0b53591e8a6"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataini}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="722" y="20" width="80" height="20" uuid="7bbd3310-812b-4b3a-bdf5-9bcad67c39ab"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datafim}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="408" y="0" width="100" height="32" uuid="8ab15a6d-452e-48f7-bfb8-9ad688736df8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{linha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="16">
+			<rectangle>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="802" height="16" backcolor="#EFEFEF" uuid="3f15d931-3b1e-4c83-89b3-21fdd089756a">
+					<printWhenExpression><![CDATA[new Boolean (($V{COLUMN_COUNT}.intValue()%2)==0)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="331" height="14" uuid="96cd671b-eb29-4d98-8d26-179f79414e15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_PROBLEMA} + " - " + $F{DESC_CAUSA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="635" y="0" width="108" height="14" uuid="6d2dc71a-9e56-4e59-aaaf-b58d340c96bf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{QTD_SCRAP_REAIS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="336" y="0" width="292" height="14" uuid="1494378f-8c19-4b00-ac49-0dd839a843cd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBSERVACAO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="333" y="-20" width="1" height="34" uuid="e77f9192-7e89-48d8-9dcf-a93370d42363"/>
+			</line>
+			<line>
+				<reportElement x="632" y="-83" width="1" height="97" uuid="e4b7df8a-5adf-4a1f-ac1f-7dbf9347bf69"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="117" height="20" uuid="217aff9e-fce3-42ec-9a46-db90815d133b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="785" y="0" width="15" height="20" uuid="faf95ce3-a214-4133-b0e0-a46b51e84063"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="717" y="0" width="68" height="20" uuid="68342109-e5ce-4462-815f-5b5614a82fe6"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

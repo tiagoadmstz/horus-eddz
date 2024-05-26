@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planocontrole_subreport1" language="groovy" pageWidth="1190" pageHeight="842" orientation="Landscape" columnWidth="1190" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1281af42-594f-4377-9de1-ec68caf47ba9">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="904"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.net.URL" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\rsouza10.AUBURN\\Desktop\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="critico" class="java.io.InputStream" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+EQU_OPERACAO,
+DESC_TESTE,
+ESP_LINHA,
+ESP_MATERIAL,
+ESP_TESTE,
+ESP_EQUIPAMENTO,
+FREQUENCIA,
+PRODUTO,
+FREQ_COMPLETO,
+ESP_COMPOSTO,
+ORDEM_OP,
+COD_OP,
+COD_SIMBOL_OP,
+ORDEM_EQUIP,
+ORDEM_TESTE,
+METODO_AVALIACAO,
+PREVENT_DETECT,
+DESC_CONTROLE,
+DATA_INICIAL,
+EQUIPE_PRINCIPAL,
+CONTATO_CHAVE,
+DESC_PRODUTO,
+DESC_PROCESSO,
+CLASSIFICACAO,
+DESC_CONTROLE,
+AMOSTRA
+FROM
+     Qry_Result
+
+where
+ESP_MATERIAL=$P{parameter1}
+
+
+order by
+ORDEM,ORDEM_EQUIP,ORDEM_TESTE,ESP_COMPOSTO asc]]>
+	</queryString>
+	<field name="EQU_OPERACAO" class="java.lang.String"/>
+	<field name="DESC_TESTE" class="java.lang.String"/>
+	<field name="ESP_LINHA" class="java.lang.String"/>
+	<field name="ESP_MATERIAL" class="java.lang.Integer"/>
+	<field name="ESP_TESTE" class="java.lang.String"/>
+	<field name="ESP_EQUIPAMENTO" class="java.lang.String"/>
+	<field name="FREQUENCIA" class="java.lang.Integer"/>
+	<field name="PRODUTO" class="java.lang.String"/>
+	<field name="FREQ_COMPLETO" class="java.lang.String"/>
+	<field name="ESP_COMPOSTO" class="java.lang.Integer"/>
+	<field name="ORDEM_OP" class="java.lang.Integer"/>
+	<field name="COD_OP" class="java.lang.Integer"/>
+	<field name="COD_SIMBOL_OP" class="java.lang.String"/>
+	<field name="ORDEM_EQUIP" class="java.lang.Integer"/>
+	<field name="ORDEM_TESTE" class="java.lang.Integer"/>
+	<field name="METODO_AVALIACAO" class="java.lang.String"/>
+	<field name="PREVENT_DETECT" class="java.lang.String"/>
+	<field name="DESC_CONTROLE" class="java.lang.String"/>
+	<field name="DATA_INICIAL" class="java.lang.String"/>
+	<field name="EQUIPE_PRINCIPAL" class="java.lang.String"/>
+	<field name="CONTATO_CHAVE" class="java.lang.String"/>
+	<field name="DESC_PRODUTO" class="java.lang.String"/>
+	<field name="DESC_PROCESSO" class="java.lang.String"/>
+	<field name="CLASSIFICACAO" class="java.lang.String"/>
+	<field name="AMOSTRA" class="java.lang.String"/>
+	<variable name="variable1" class="java.lang.Integer" resetType="Group" resetGroup="Operacao" calculation="Count">
+		<variableExpression><![CDATA[$F{EQU_OPERACAO}]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.lang.Integer" resetType="Group" resetGroup="equipamento" calculation="Count">
+		<variableExpression><![CDATA[$F{ESP_EQUIPAMENTO}]]></variableExpression>
+	</variable>
+	<variable name="variable3" class="java.lang.Integer" resetType="Group" resetGroup="DESC_PRODUTO" calculation="Count">
+		<variableExpression><![CDATA[$F{DESC_PRODUTO}]]></variableExpression>
+	</variable>
+	<variable name="variable4" class="java.lang.Integer" resetType="Group" resetGroup="DESC_PROCESSO" calculation="Count">
+		<variableExpression><![CDATA[$F{DESC_PROCESSO}]]></variableExpression>
+	</variable>
+	<variable name="OPERAÇÂOSEQ" class="java.lang.Integer" incrementType="Group" incrementGroup="Operacao" calculation="Count">
+		<variableExpression><![CDATA[$F{EQU_OPERACAO}]]></variableExpression>
+	</variable>
+	<group name="Operacao">
+		<groupExpression><![CDATA[$F{EQU_OPERACAO}]]></groupExpression>
+	</group>
+	<group name="equipamento">
+		<groupExpression><![CDATA[$F{ESP_EQUIPAMENTO}]]></groupExpression>
+	</group>
+	<group name="DESC_PRODUTO">
+		<groupExpression><![CDATA[$F{DESC_PRODUTO}]]></groupExpression>
+	</group>
+	<group name="DESC_PROCESSO">
+		<groupExpression><![CDATA[$F{DESC_PROCESSO}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="63">
+			<staticText>
+				<reportElement x="413" y="1" width="37" height="59" uuid="953f3865-9171-4224-9502-bf0566cdbac1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Classif. Característica]]></text>
+			</staticText>
+			<line>
+				<reportElement x="450" y="-1" width="1" height="61" uuid="39b9c18b-f8d0-4a9d-a855-f99e10585aaa"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="450" y="21" width="373" height="1" uuid="6689a305-3f0f-4bfc-871e-7756301d5cad"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="24" y="-1" width="1" height="61" uuid="48b3df81-c58a-4694-bfec-f0f94eb6b270"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1149" y="-1" width="1" height="62" uuid="2639981d-530c-4fa8-aa67-e9883491c399"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="823" y="1" width="326" height="60" uuid="4e3d10b7-cea1-4d13-9d0e-dd4eb1a59d78"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plano de Reação]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="61" width="1149" height="1" uuid="dea2019f-ac4a-4a25-a4c6-96411cc48fcf"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="213" y="22" width="100" height="39" uuid="b7e6590e-5512-4c03-917e-8107251948e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Processo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="701" y="22" width="61" height="38" uuid="47d393a1-af54-4a8d-80cc-b445d366bf4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Responsável]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="1" width="102" height="59" uuid="a98c8da2-d307-4911-a47c-9cd1c104bcdb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Equipamento / Dispositivo / Ferramenta de Manufatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="1" width="22" height="59" uuid="a0a1a50c-ec77-4a85-b11c-4ed40b122dbc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Seq.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="1" width="200" height="20" uuid="c747bc2c-414b-4c04-983f-aaf97fe72de2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Característica a ser Cotnrolada]]></text>
+			</staticText>
+			<line>
+				<reportElement x="312" y="21" width="1" height="39" uuid="dfc3386c-1843-476d-8d67-8a1c59fdd601"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="26" y="1" width="81" height="59" uuid="5398aaf9-f9b0-4a8d-bdbf-e88b31982ad1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome / Descrição da Operação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="22" width="99" height="38" uuid="2c5c3fcb-1068-4a76-8a6e-0627fba8ea46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="624" y="42" width="76" height="20" uuid="a23735b3-0f5e-4d85-a765-b80262299e20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frequência]]></text>
+			</staticText>
+			<line>
+				<reportElement x="700" y="22" width="1" height="38" uuid="aab0a338-5bd5-4be4-9c4f-adbf9be62a61"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="107" y="-1" width="1" height="62" uuid="d12c4aa4-1d17-4022-a823-8180ffe25297"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="569" y="42" width="54" height="20" uuid="f0d6d349-fe99-4034-9ee4-08f09579b311"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tamanho]]></text>
+			</staticText>
+			<line>
+				<reportElement x="211" y="-1" width="1" height="62" uuid="925fbe4a-885c-46ee-8c23-1fba96e75e4b"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="412" y="-1" width="1" height="61" uuid="f6c594cd-4a3d-420a-a958-9d87a4dbf1d4"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="1" height="61" uuid="b3af3f26-c822-41e2-bb79-2606bf3e3ac2"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="451" y="22" width="117" height="38" uuid="d1a06eb1-2a35-4e31-b30b-4502650befea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Método de Avaliação / Medição]]></text>
+			</staticText>
+			<line>
+				<reportElement x="823" y="-1" width="1" height="61" uuid="1daed310-9cc2-423f-a41d-064a1f4e9040"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="451" y="1" width="372" height="20" uuid="474431ce-3c64-4df3-bb2d-c58e094400f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Método]]></text>
+			</staticText>
+			<line>
+				<reportElement x="623" y="41" width="1" height="20" uuid="09318963-59f0-434c-9557-447c2fd434c6"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="212" y="21" width="200" height="1" uuid="cd0a38db-0a54-4654-8ce4-e95e424632a9"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="413" y="61" width="37" height="1" uuid="58e32790-c407-4980-a732-1abc0b6897e2">
+					<printWhenExpression><![CDATA[new Boolean($V{variable1}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="568" y="41" width="132" height="1" uuid="4fb49c83-edaa-40ce-a15d-20f6ea2ee922"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="568" y="23" width="132" height="18" uuid="6f61453e-b053-4966-b7b7-f9c39f017147"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Amostra]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="762" y="22" width="61" height="38" uuid="36b5528f-65d7-4d30-82f9-d68d8a978a5c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registro]]></text>
+			</staticText>
+			<line>
+				<reportElement x="761" y="21" width="1" height="41" uuid="88037ff0-c364-49ac-aaf3-d0e307b98cf9"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="568" y="21" width="1" height="39" uuid="93e73553-0dd1-49ef-bb4b-cee0c2948a03"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement isPrintRepeatedValues="false" x="25" y="0" width="82" height="19" uuid="30f39ff3-9f13-488f-bb66-af0354f09025"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EQU_OPERACAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="624" y="1" width="75" height="18" uuid="521af073-ef26-45b8-9bed-e0471ac83347">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FREQ_COMPLETO}.equals("A cada 100 início de turno / ou troca de lote") ? "A cada 100% início de turno / ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 100 Início de turno/ou troca de lote.") ? "A cada 100% Início de turno / ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de turno/ou troca de lote.") ? "A cada início de turno/ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de produção") ? "A cada início de produção" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de produção") ? "A cada início de produção" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de turno/Setup") ? "A cada início de turno/setup" : $F{FREQ_COMPLETO}.equals("A cada 1 Início do turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}.equals("A cada 100 Início de turno/Setup") ? "A cada 100% início de turno/setup" : $F{FREQ_COMPLETO}.equals("100% Inspeção. Registrar a cada 2 hs") ? "Inspeção 100%. Registrar a cada 2 hs" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de turno/ou troca de lote.") ? "A cada início de turno/ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 0 Cortar uma peça a cada inicio de Turno") ? "Cortar uma peça a cada início de Turno" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de turno/Setup") ? "A cada início de turno/Setup" : $F{FREQ_COMPLETO}.equals("A cada 6 Dia(s)") ? "A cada início de turno (6 em 6 dias)" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do Turno/Setup") ? "A cada início do turno/setup" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do Turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="701" y="0" width="60" height="19" uuid="51254e13-daac-44e6-8b0e-44eebfc397b0">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Operador]]></text>
+			</staticText>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="212" y="-2" width="200" height="1" uuid="384f5ad1-5c0c-4f31-a15a-6bee1d9bf535">
+					<printWhenExpression><![CDATA[new Boolean($V{variable2}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="702" y="-2" width="60" height="1" uuid="43742167-c6ef-46fd-b1b9-76a631d12d4a">
+					<printWhenExpression><![CDATA[new Boolean($V{variable1}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="313" y="0" width="100" height="19" uuid="246f5bec-fc4d-4e1c-9af7-386a94ea0a55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_PRODUTO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="211" y="1" width="100" height="18" uuid="03418a03-72d4-473a-b9ee-68ae7cbf89df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_PROCESSO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="413" y="-2" width="38" height="1" uuid="4771e554-5eb5-468b-aaff-22df3754f29b">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="450" y="-2" width="373" height="1" uuid="c6cc4f67-b2b4-4b0d-aa00-1bced71aef5d">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="413" y="-2" width="38" height="1" uuid="d8db3928-0979-4984-ba08-036a22c657a1">
+					<printWhenExpression><![CDATA[new Boolean($V{variable4}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="624" y="2" width="75" height="17" uuid="f287f536-fad1-471b-a8e2-81bf99302c21">
+					<printWhenExpression><![CDATA[new Boolean($V{variable4}==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FREQ_COMPLETO}.equals("A cada 100 início de turno / ou troca de lote") ? "A cada 100% início de turno / ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 100 Início de turno/ou troca de lote.") ? "A cada 100% Início de turno / ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de turno/ou troca de lote.") ? "A cada início de turno/ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de produção") ? "A cada início de produção" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de produção") ? "A cada início de produção" : $F{FREQ_COMPLETO}.equals("A cada 1 Início de turno/Setup") ? "A cada início de turno/setup" : $F{FREQ_COMPLETO}.equals("A cada 1 Início do turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}.equals("A cada 100 Início de turno/Setup") ? "A cada 100% início de turno/setup" : $F{FREQ_COMPLETO}.equals("100% Inspeção. Registrar a cada 2 hs") ? "Inspeção 100%. Registrar a cada 2 hs" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de turno/ou troca de lote.") ? "A cada início de turno/ou troca de lote" : $F{FREQ_COMPLETO}.equals("A cada 0 Cortar uma peça a cada inicio de Turno") ? "Cortar uma peça a cada início de Turno" : $F{FREQ_COMPLETO}.equals("A cada 0 Início de turno/Setup") ? "A cada início de turno/Setup" : $F{FREQ_COMPLETO}.equals("A cada 6 Dia(s)") ? "A cada início de turno (6 em 6 dias)" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do Turno/Setup") ? "A cada início do turno/setup" : $F{FREQ_COMPLETO}.equals("A cada 0 Início do Turno") ? "A cada início do turno" : $F{FREQ_COMPLETO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="450" y="-2" width="374" height="1" uuid="565118e7-8ce9-4646-845f-aa1005d0467b">
+					<printWhenExpression><![CDATA[new Boolean($V{variable4}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="701" y="0" width="60" height="19" uuid="6f6aa6e2-aeb0-4328-993a-afc59d953aea">
+					<printWhenExpression><![CDATA[new Boolean($V{variable4}==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Operador]]></text>
+			</staticText>
+			<line>
+				<reportElement x="568" y="-3" width="1" height="22" uuid="f9a81884-57da-4ce1-8ad4-9abd6a615ce6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement isPrintRepeatedValues="false" x="107" y="1" width="104" height="18" uuid="3766868a-beee-4d48-b7e9-cb6c69fae4a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESP_EQUIPAMENTO}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="312" y="-3" width="1" height="22" uuid="5adeab38-e30a-4913-8b31-c7e021e9aad7"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1149" y="-3" width="1" height="22" uuid="1e0c7235-2334-4955-b779-3fadacb558d1"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="-3" width="1" height="22" uuid="3bd96833-539f-4ccd-bb5e-0533c96c18f5"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="24" y="-3" width="1" height="22" uuid="8727c14a-ba86-4aef-9435-319f4cb60542"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="450" y="-3" width="1" height="22" uuid="6b1f1195-44fc-448a-bb13-ae4aa3995581"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="412" y="-3" width="1" height="22" uuid="31b0444c-3e7b-4fad-b554-9ef4c759cd33"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="211" y="-3" width="1" height="22" uuid="98caf386-8d60-473a-b957-4ebfdd825905"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="107" y="-3" width="1" height="22" uuid="5b8e1b1b-38e5-497b-94df-a22c6ea10fdb"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="623" y="-2" width="1" height="21" uuid="20dc20b1-e7d7-4724-8006-1e8ae24c652a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="700" y="-3" width="1" height="22" uuid="5c75b74f-5d69-4382-8327-2252867c56a9"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="823" y="-3" width="1" height="22" uuid="43beb088-66d2-4a29-b978-21c738b6c8c6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="212" y="-2" width="200" height="1" uuid="d4775c80-b4ae-4a89-be03-8acc22c922b9">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="212" y="-2" width="200" height="1" uuid="6e78fe2c-5cec-40bb-9a0d-60dad59a4b79">
+					<printWhenExpression><![CDATA[new Boolean($V{variable4}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="0" y="-2" width="107" height="1" uuid="ea314cb5-b9f0-4724-8a84-7bed0a75b56a">
+					<printWhenExpression><![CDATA[new Boolean($V{variable1}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="107" y="-2" width="104" height="1" uuid="19daae89-1b16-4a8f-8501-09303c9b18c1">
+					<printWhenExpression><![CDATA[new Boolean($V{variable2}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="450" y="-2" width="372" height="1" uuid="5a6e57e1-6e7f-4073-bff6-1bce36c83d7a">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<ellipse>
+				<reportElement x="4" y="0" width="16" height="16" backcolor="#CCCCCC" uuid="4049f937-696d-4b9f-8c84-ddb2a893ab54">
+					<printWhenExpression><![CDATA[new Boolean($V{variable1}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</ellipse>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="4" y="-1" width="16" height="17" uuid="0566db38-5500-44d5-b7a5-568339cc446a">
+					<printWhenExpression><![CDATA[new Boolean($V{variable1}==1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{OPERAÇÂOSEQ}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="313" y="-2" width="99" height="1" uuid="e5d5edb2-4682-493f-b92b-238fb8d410e8">
+					<printWhenExpression><![CDATA[new Boolean($V{variable3}==1)]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="451" y="0" width="117" height="19" uuid="ec0b3ffc-0998-4adb-9778-ef61af527db1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESC_CONTROLE}]]></textFieldExpression>
+			</textField>
+			<image isUsingCache="true">
+				<reportElement x="424" y="1" width="34" height="16" uuid="e44fd319-2234-4039-aead-f0ee98347d5a">
+					<printWhenExpression><![CDATA[$F{CLASSIFICACAO}.equals("Crítico")]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{critico}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="763" y="0" width="60" height="19" uuid="1c5cc29d-3634-4fb8-bd2b-8ec54fe1a291"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<text><![CDATA[Ficha de Controle]]></text>
+			</staticText>
+			<line>
+				<reportElement x="761" y="-2" width="1" height="21" uuid="db97e3dd-4a30-4197-88d0-37cd8f7d3233"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="568" y="0" width="55" height="19" uuid="00ca71b1-3635-4ea2-b139-2b872665da8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AMOSTRA}.equals("")? "100%" : $F{AMOSTRA} ==  null ? "100%" : $F{AMOSTRA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

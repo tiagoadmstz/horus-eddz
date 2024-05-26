@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fluxograma_subreport1" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="52320752-0dce-4c29-a1c1-961a0d8e5406">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="1188"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     ID,
+     RODPLAN_MATERIAL,
+     RODPLAN_LINHA,
+     CAST(RODPLAN_DATA AS datetime)DATA,
+     RODPLAN_REV,
+     RODPLAN_DESCRICAO,
+     RODPLAN_EMITENTE,
+     RODPLAN_SETOR,
+     RODPLAN_RESPONSAVEL
+FROM
+     Cad_RodPlan
+
+where RODPLAN_MATERIAL= $P{perfil}]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="RODPLAN_MATERIAL" class="java.lang.Integer"/>
+	<field name="RODPLAN_LINHA" class="java.lang.String"/>
+	<field name="DATA" class="java.sql.Timestamp"/>
+	<field name="RODPLAN_REV" class="java.lang.Integer"/>
+	<field name="RODPLAN_DESCRICAO" class="java.lang.String"/>
+	<field name="RODPLAN_EMITENTE" class="java.lang.String"/>
+	<field name="RODPLAN_SETOR" class="java.lang.String"/>
+	<field name="RODPLAN_RESPONSAVEL" class="java.lang.String"/>
+	<group name="Material">
+		<groupExpression><![CDATA[$F{RODPLAN_MATERIAL}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<staticText>
+					<reportElement mode="Opaque" x="49" y="-1" width="36" height="13" backcolor="#999999" uuid="7de6a631-679c-433b-88b2-83d886f1dff6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rev]]></text>
+				</staticText>
+				<line>
+					<reportElement x="518" y="-1" width="1" height="13" uuid="dae43a44-679a-4d48-839d-567ce2fb0d2a"/>
+					<graphicElement>
+						<pen lineWidth="1.0"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="85" y="-1" width="173" height="13" backcolor="#999999" uuid="3ea7555f-ca98-4830-a190-e7d20507a267"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descrição]]></text>
+				</staticText>
+				<line>
+					<reportElement x="85" y="-1" width="1" height="13" uuid="0f01ee8e-0549-40a7-a351-e6c46637e64d"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="446" y="-1" width="72" height="13" backcolor="#999999" uuid="45f19b62-7507-4fcc-97b8-f2346178d18e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Responsável]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="258" y="-1" width="115" height="13" backcolor="#999999" uuid="ca57d212-7584-4d5d-ad5f-934d822146c2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Emitente]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="-1" width="1" height="13" uuid="fcc2e619-be58-477d-b3f1-a11c98f8e747"/>
+					<graphicElement>
+						<pen lineWidth="1.0"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="-1" width="48" height="13" backcolor="#999999" uuid="4832b2b6-a871-4adc-ad22-24430c1fc058"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<line>
+					<reportElement x="446" y="-1" width="1" height="13" uuid="ff42dc08-0976-4442-b3c1-0666de6fcb60"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement mode="Opaque" x="373" y="-1" width="73" height="13" backcolor="#999999" uuid="c3cdc1f4-f380-4703-b6ac-aab305009fb0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Setor]]></text>
+				</staticText>
+				<line>
+					<reportElement x="373" y="-1" width="1" height="13" uuid="0cc40d38-3823-4238-a481-f61f8ca7d172"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="49" y="-1" width="1" height="13" uuid="739b694d-0e75-440b-adc8-01ec7627dc28"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="0" y="-1" width="518" height="1" uuid="e2fec088-e495-4cda-a709-0c3b48dd2b06"/>
+					<graphicElement>
+						<pen lineWidth="1.0"/>
+					</graphicElement>
+				</line>
+				<line>
+					<reportElement x="258" y="-1" width="1" height="13" uuid="0022a2b4-21eb-41b1-a33f-1b081e0c80ea"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="-1" width="49" height="12" uuid="1d19bc6a-8029-4b05-b496-32db676132b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="-1" width="35" height="12" uuid="b0e52d79-f4e8-4589-a0e0-d4e5accfd9b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RODPLAN_REV}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="86" y="-1" width="172" height="12" uuid="a25897af-1daa-4d06-84de-2b484722c3de"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RODPLAN_DESCRICAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="259" y="-1" width="114" height="12" uuid="45a04c92-e7ac-46cd-a1da-5ca1a2600f4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RODPLAN_EMITENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="-1" width="74" height="12" uuid="98d1eaa2-05af-4e3c-b593-7af447c74c41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RODPLAN_SETOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="447" y="-1" width="71" height="12" uuid="f55a268a-7c41-4e9e-a526-c00db29bb6ea"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RODPLAN_RESPONSAVEL}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="49" y="-1" width="1" height="12" uuid="7f7b61f4-a77a-4abd-98f9-0cd92d4eb975"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="1" height="12" uuid="21b2ec12-ea94-4b9f-9344-8f31e913bbdd"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="85" y="-1" width="1" height="12" uuid="e32c7166-4591-430d-b5c4-fa6707055473"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="258" y="-1" width="1" height="12" uuid="df1006d7-5a9a-4c7b-8a22-e2237195732a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="373" y="-1" width="1" height="12" uuid="6e8bea64-4f11-4e89-9aa2-d6b7d74db376"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="446" y="-1" width="1" height="12" uuid="927dcede-ca67-4cdf-b945-836f755fb5f9"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="518" y="-1" width="1" height="12" uuid="213369b7-05e3-433d-845d-2df443476020"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="11" width="519" height="1" uuid="f969716b-1e5d-4c36-ac03-56c7af2bc603"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

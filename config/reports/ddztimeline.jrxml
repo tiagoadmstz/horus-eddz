@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ddzlancamento" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95d463c0-ef51-4bfe-ae42-2b8cb0e9bd15">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="linha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataini" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datafim" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.io.InputStream">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="flag" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="perfil" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ID_CONTROLE,ID_M_MATERIAL, FLAG, DATAHORA  FROM dbo.vw_ddz_1 WHERE (FLAG ='E' OR FLAG = 'P') AND CONVERT(DATE, DATAHORA, 111) BETWEEN CONVERT(DATE,'2023/02/08',111) AND CONVERT(DATE,'2023/02/08',111) order by ID_CONTROLE ASC]]>
+	</queryString>
+	<field name="ID_CONTROLE" class="java.lang.Integer"/>
+	<field name="ID_M_MATERIAL" class="java.lang.Integer"/>
+	<field name="FLAG" class="java.lang.String"/>
+	<field name="DATAHORA" class="java.sql.Timestamp"/>
+	<variable name="variable1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="variable2" class="java.util.Date">
+		<variableExpression><![CDATA[$F{DATAHORA}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<image isUsingCache="true">
+				<reportElement x="0" y="0" width="150" height="32" uuid="812fd85c-3a77-4c54-8efa-bcdaa3f88de5"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="150" y="0" width="652" height="32" uuid="eb030fea-a4a5-4e13-ac20-7aa007eb8617"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Timeline]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="493">
+			<ganttChart>
+				<chart>
+					<reportElement x="0" y="0" width="802" height="493" uuid="add7ce1c-7970-4d9c-ae89-ceb01da9181d"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<ganttDataset>
+					<ganttSeries>
+						<seriesExpression><![CDATA[String.valueOf($F{ID_M_MATERIAL})]]></seriesExpression>
+						<taskExpression><![CDATA[String.valueOf($F{ID_M_MATERIAL}),$F{ID_M_MATERIAL}]]></taskExpression>
+						<subtaskExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format($F{DATAHORA})]]></subtaskExpression>
+						<startDateExpression><![CDATA[$V{variable2}]]></startDateExpression>
+						<endDateExpression><![CDATA[$V{variable2}]]></endDateExpression>
+					</ganttSeries>
+				</ganttDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</ganttChart>
+		</band>
+	</pageFooter>
+</jasperReport>
