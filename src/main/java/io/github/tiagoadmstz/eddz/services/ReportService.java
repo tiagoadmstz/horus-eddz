@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -151,7 +152,7 @@ public class ReportService {
     public byte[] generatePdfReportByDto(final ReportGenerationDto report) throws ReportException {
         try {
             if (
-                report.getFilters().stream().anyMatch(ft -> StringUtils.isBlank(ft.getValor())) &&
+                (report.getFilters().isEmpty() || report.getFilters().stream().anyMatch(ft -> StringUtils.isBlank(ft.getValor()))) &&
                 (report.isSqlReport() && report.isDataCollect())
             ) {
                 report.setReportPaths(eddzConfiguration.getReportsPath(), eddzConfiguration.getReportsLogo());
@@ -159,7 +160,16 @@ public class ReportService {
                 if (report.isResultPerLabel()) {
                     throw new ReportException("Error on trying generate report: copies sent to printer");
                 }
-                return generatePdfReport(report);
+                //return generatePdfReport(report);
+                final JasperPrint jasperPrint = JasperFillManager.fillReport(report.getInputStream(), report.getParameters(), dataSource);
+                try (
+                    final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)
+                ) {
+                    objectOutputStream.writeObject(jasperPrint);
+                    objectOutputStream.flush();
+                    return byteArrayOutputStream.toByteArray();
+                }
             } else {
                 throw new ReportException("Error on trying generate report: required field");
             }

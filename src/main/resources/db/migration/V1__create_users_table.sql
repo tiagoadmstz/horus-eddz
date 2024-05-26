@@ -31,7 +31,7 @@ CREATE SEQUENCE permissions_seq
     NO MAXVALUE
     CACHE 1;
 
-INSERT INTO Cad_Usuario (PK_ID, NOME, LOGIN, SENHA, PLANTA) VALUES (1, 'DDZL7', 'admin', '$2a$10$xDjekR3Ts0vGaq02eu3DR.xAllgW2bl4IibHLnIVEcGJ9Wo7nWS/2', 'Varginha');
+INSERT INTO Cad_Usuario (PK_ID, NOME, LOGIN, SENHA, PLANTA, SETOR) VALUES (1, 'DDZL7', 'admin', '$2a$10$xDjekR3Ts0vGaq02eu3DR.xAllgW2bl4IibHLnIVEcGJ9Wo7nWS/2', 'Varginha', 'Extrusão');
 
 INSERT INTO Cad_Usuario_Permissao (PK_ID, FK_ID_USUARIO, PERMISSAO) VALUES (1, 1, 'MenuRelatorio');
 INSERT INTO Cad_Usuario_Permissao (PK_ID, FK_ID_USUARIO, PERMISSAO) VALUES (2, 1, 'Validacao');

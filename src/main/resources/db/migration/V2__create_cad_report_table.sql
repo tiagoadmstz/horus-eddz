@@ -38,7 +38,7 @@ CREATE TABLE Cad_Report (
 );
 
 CREATE SEQUENCE seq_report
-    START 24
+    START 25
     INCREMENT 1
     NO MINVALUE
     NO MAXVALUE
@@ -67,6 +67,8 @@ INSERT INTO Report_Group (GRUPO, NOME) VALUES (9, '(Insp) Teste reprovados');
 INSERT INTO Report_Group (GRUPO, NOME) VALUES (10, '(Insp) Busca por resultados');
 INSERT INTO Report_Group (GRUPO, NOME) VALUES (11, '(Insp) Capabilidade');
 
+INSERT INTO Report_Group (GRUPO, NOME) VALUES (12, 'Report Test');
+
 -- CADASTRO DE RELATORIOS
 INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (1, TRUE, 'Fluxograma de processo', 'fluxograma.jasper', 'RDC0001', 'SQL', 1, 1);
 INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (2, TRUE, 'DDZ rodada', 'ddzrodada.jasper', 'RDC0002', 'SQL', 2, 1);
@@ -91,6 +93,8 @@ INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, OR
 INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (21, TRUE, 'Perfis produzidos por período', 'insp_BPerfilProduzido.jasper', 'RDC0021', 'SQL', 10, 7);
 INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (22, TRUE, 'DDZ rodada (evidência)', 'ddzevidencia.jasper', 'RDC0022', 'SQL', 2, 3);
 INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (23, TRUE, 'Listagem de Lançamentos', 'ddzlancamento.jasper', 'RDC0023', 'SQL', 2, 4);
+
+INSERT INTO Cad_Report (RELATORIO, ATIVO, NOME, PASTA, SIGLA, TIPO, ID_GRUPO, ORDEM) VALUES (24, TRUE, 'Report Test', 'reportTest.jasper', 'RTT0001', 'SQL', 12, 1);
 
 -- CADASTRO DE FILTROS
 INSERT INTO Report_Filter (FILTRO, NOME, TIPO, ORDEM) VALUES (1, 'Datas', 'datas', 1);

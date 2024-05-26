@@ -3,10 +3,7 @@ package io.github.tiagoadmstz.eddz.controllers;
 import io.github.tiagoadmstz.eddz.dtos.reports.ReportGenerationDto;
 import io.github.tiagoadmstz.eddz.dtos.reports.ReportGroupDto;
 import io.github.tiagoadmstz.eddz.services.ReportService;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.repo.OutputStreamResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -71,10 +66,7 @@ public class ReportController {
     }
 
     @PostMapping("generate")
-    public ResponseEntity<byte[]> generatePdfReport(@RequestBody final ReportGenerationDto reportGenerationDto) throws JRException, IOException {
-        final byte[] pdfReport = reportService.generatePdfReportByDto(reportGenerationDto);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfReport);
+    public ResponseEntity<byte[]> generatePdfReport(@RequestBody final ReportGenerationDto reportGenerationDto) {
+        return ResponseEntity.ok().body(reportService.generatePdfReportByDto(reportGenerationDto));
     }
 }
