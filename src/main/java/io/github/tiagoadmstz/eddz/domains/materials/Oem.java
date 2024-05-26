@@ -1,5 +1,6 @@
 package io.github.tiagoadmstz.eddz.domains.materials;
 
+import io.github.tiagoadmstz.eddz.dtos.OemDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,4 +25,8 @@ public class Oem {
     @Column(name = "OEM", length = 50, nullable = false, unique = true)
     private String oemDescription;
 
+    public Oem(OemDto oemDto) {
+        this.id = oemDto.getId();
+        this.oemDescription = oemDto.getDescription();
+    }
 }
